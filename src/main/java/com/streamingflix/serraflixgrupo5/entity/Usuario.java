@@ -1,7 +1,11 @@
 package com.streamingflix.serraflixgrupo5.entity;
 
 import java.time.LocalDate;
+
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "usuarios")
@@ -11,67 +15,72 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank(message = "Nome é obrigatório")
+	@Size(min = 3, max = 100)
 	private String nome;
 	
-	@Column(unique = true)
-	private String username;
-	
+	@NotBlank(message = "Email é obrigatório")
+    @Email(message = "Email inválido")
+    @Column(unique = true, nullable = false)
 	private String email;
 	
+	@NotBlank(message = "Username é obrigatório")
+	@Size(min = 3, max = 50)
+	@Column(unique = true, nullable = false)
+	private String username;
+	
+	@NotBlank(message = "Senha é obrigatória")
+	@Size(min = 8, message = "Senha deve ter no mínimo 8 caracteres")
 	private String senha;
 	
+	@Column(nullable = false)
 	private LocalDate dataCriacao;
-	
-	public Usuario() {	
-		
-	}
 
-	public Long getId() {
+	private Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	private void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getNome() {
+	private String getNome() {
 		return nome;
 	}
 
-	public void setNome(String nome) {
+	private void setNome(String nome) {
 		this.nome = nome;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getEmail() {
+	private String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email) {
+	private void setEmail(String email) {
 		this.email = email;
 	}
 
-	public String getSenha() {
+	private String getUsername() {
+		return username;
+	}
+
+	private void setUsername(String username) {
+		this.username = username;
+	}
+
+	private String getSenha() {
 		return senha;
 	}
 
-	public void setSenha(String senha) {
+	private void setSenha(String senha) {
 		this.senha = senha;
 	}
 
-	public LocalDate getDataCriacao() {
+	private LocalDate getDataCriacao() {
 		return dataCriacao;
 	}
 
-	public void setDataCriacao(LocalDate dataCriacao) {
+	private void setDataCriacao(LocalDate dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
-
 }
