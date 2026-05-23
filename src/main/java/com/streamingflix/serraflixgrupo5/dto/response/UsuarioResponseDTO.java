@@ -1,62 +1,33 @@
 package com.streamingflix.serraflixgrupo5.dto.response;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-
+ 
 public class UsuarioResponseDTO {
-	
-	private Long id;
+ 
+    private Long id;
     private String nome;
     private String email;
     private String username;
-    private String fotoPerfil;
     private LocalDate dataCriacao;
-    
-    private Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	private String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	private String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	private String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	
-	public String getFotoPerfil() {
-		return fotoPerfil;
-	}
-	
-	public void setFotoPerfil(String fotoPerfil) {
-		this.fotoPerfil = fotoPerfil;
-	}
-
-	public LocalDate getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public void setDataCriacao(LocalDate dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
+    private String fotoPerfil;
+ 
+    public UsuarioResponseDTO() {}
+ 
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+ 
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+ 
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+ 
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+ 
+    public LocalDate getDataCriacao() { return dataCriacao; }
+    public void setDataCriacao(LocalDate dataCriacao) { this.dataCriacao = dataCriacao; }
+ 
+    public String getFotoPerfil() { return fotoPerfil; }
+    public void setFotoPerfil(String fotoPerfil) { this.fotoPerfil = fotoPerfil; }
 }
