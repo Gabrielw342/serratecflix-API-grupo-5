@@ -1,4 +1,4 @@
-package controller;
+package com.streamingflix.serraflixgrupo5.controller;
 
 import java.util.List;
 
@@ -6,10 +6,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import dto.request.FilmeRequestDTO;
-import dto.response.FilmeResponseDTO;
+import com.streamingflix.serraflixgrupo5.dto.request.FilmeRequestDTO;
+import com.streamingflix.serraflixgrupo5.dto.response.FilmeResponseDTO;
+import com.streamingflix.serraflixgrupo5.service.FilmeService;
+
 import jakarta.validation.Valid;
-import service.FilmeService;
 
 @RestController
 @RequestMapping("/filmes")

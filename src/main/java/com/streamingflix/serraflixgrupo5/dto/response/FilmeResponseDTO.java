@@ -1,62 +1,38 @@
-package entity;
+package com.streamingflix.serraflixgrupo5.dto.response;
 
 import java.time.LocalDate;
 
-import com.streamingflix.serraflixgrupo5enum.ClassificacaoIndicativa;
+import java.util.List;
 
-import jakarta.persistence.*;
+import com.streamingflix.serraflixgrupo5.enums.ClassificacaoIndicativa;
 
-@Entity
-@Table(name = "series")
-public class Serie {
+public class FilmeResponseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String titulo;
 
-    @Column(columnDefinition = "TEXT")
     private String descricao;
 
-    private Integer episodios;
-    
-    private Integer temporadas;
+    private Integer duracao;
 
-    private LocalDate dataLancamento; 
+    private LocalDate dataLancamento;
 
-    @Enumerated(EnumType.STRING)
     private ClassificacaoIndicativa classificacaoIndicativa;
 
     private Double notaMedia;
     
-    
+    private List<String> categorias;
 
-    public Integer getEpisodios() {
-		return episodios;
-	}
-
-	public void setEpisodios(Integer episodios) {
-		this.episodios = episodios;
-	}
-
-	public Integer getTemporadas() {
-		return temporadas;
-	}
-
-	public void setTemporadas(Integer temporadas) {
-		this.temporadas = temporadas;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Serie() {
+    public FilmeResponseDTO() {
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitulo() {
@@ -73,6 +49,14 @@ public class Serie {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Integer getDuracao() {
+        return duracao;
+    }
+
+    public void setDuracao(Integer duracao) {
+        this.duracao = duracao;
     }
 
     public LocalDate getDataLancamento() {
@@ -98,4 +82,14 @@ public class Serie {
     public void setNotaMedia(Double notaMedia) {
         this.notaMedia = notaMedia;
     }
+
+	public List<String> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<String> categorias) {
+		this.categorias = categorias;
+	}
+
+  
 }

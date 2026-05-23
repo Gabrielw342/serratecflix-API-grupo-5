@@ -1,37 +1,36 @@
-package dto.response;
+package com.streamingflix.serraflixgrupo5.dto.request;
 
 import java.time.LocalDate;
 
 import java.util.List;
-import com.streamingflix.serraflixgrupo5enum.ClassificacaoIndicativa;
 
-public class FilmeResponseDTO {
+import com.streamingflix.serraflixgrupo5.enums.ClassificacaoIndicativa;
 
-    private Long id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
+public class FilmeRequestDTO {
+
+    @NotBlank
     private String titulo;
 
+    @NotBlank
     private String descricao;
 
+    @NotNull
     private Integer duracao;
 
+    @NotNull
     private LocalDate dataLancamento;
 
+    @NotNull
     private ClassificacaoIndicativa classificacaoIndicativa;
 
     private Double notaMedia;
     
-    private List<String> categorias;
+    private List<Long> categoriasIds;
 
-    public FilmeResponseDTO() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public FilmeRequestDTO() {
     }
 
     public String getTitulo() {
@@ -81,14 +80,12 @@ public class FilmeResponseDTO {
     public void setNotaMedia(Double notaMedia) {
         this.notaMedia = notaMedia;
     }
+    
+    public List<Long> getCategoriasIds() {
+        return categoriasIds;
+    }
 
-	public List<String> getCategorias() {
-		return categorias;
-	}
-
-	public void setCategorias(List<String> categorias) {
-		this.categorias = categorias;
-	}
-
-  
+    public void setCategoriasIds(List<Long> categoriasIds) {
+        this.categoriasIds = categoriasIds;
+    }
 }

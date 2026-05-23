@@ -1,11 +1,12 @@
-package entity;
+package com.streamingflix.serraflixgrupo5.entity;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import com.streamingflix.serraflixgrupo5.enums.ClassificacaoIndicativa;
+
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-
-import com.streamingflix.serraflixgrupo5enum.ClassificacaoIndicativa;
 import jakarta.persistence.*;
 
 @Entity

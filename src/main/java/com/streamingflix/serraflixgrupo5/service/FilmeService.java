@@ -1,17 +1,17 @@
-package service;
+package com.streamingflix.serraflixgrupo5.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.Categoria;
-import repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import dto.request.FilmeRequestDTO;
-import dto.response.FilmeResponseDTO;
-import entity.Filme;
-import repository.FilmeRepository;
+import com.streamingflix.serraflixgrupo5.dto.request.FilmeRequestDTO;
+import com.streamingflix.serraflixgrupo5.dto.response.FilmeResponseDTO;
+import com.streamingflix.serraflixgrupo5.entity.Categoria;
+import com.streamingflix.serraflixgrupo5.entity.Filme;
+import com.streamingflix.serraflixgrupo5.repository.CategoriaRepository;
+import com.streamingflix.serraflixgrupo5.repository.FilmeRepository;
 
 @Service
 public class FilmeService {

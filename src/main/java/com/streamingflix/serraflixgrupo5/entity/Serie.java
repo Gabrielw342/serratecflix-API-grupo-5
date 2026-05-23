@@ -1,35 +1,62 @@
-package dto.request;
+package com.streamingflix.serraflixgrupo5.entity;
 
 import java.time.LocalDate;
 
-import java.util.List;
-import com.streamingflix.serraflixgrupo5enum.ClassificacaoIndicativa;
+import com.streamingflix.serraflixgrupo5.enums.ClassificacaoIndicativa;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.*;
 
-public class FilmeRequestDTO {
+@Entity
+@Table(name = "series")
+public class Serie {
 
-    @NotBlank
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String titulo;
 
-    @NotBlank
+    @Column(columnDefinition = "TEXT")
     private String descricao;
 
-    @NotNull
-    private Integer duracao;
+    private Integer episodios;
+    
+    private Integer temporadas;
 
-    @NotNull
-    private LocalDate dataLancamento;
+    private LocalDate dataLancamento; 
 
-    @NotNull
+    @Enumerated(EnumType.STRING)
     private ClassificacaoIndicativa classificacaoIndicativa;
 
     private Double notaMedia;
     
-    private List<Long> categoriasIds;
+    
 
-    public FilmeRequestDTO() {
+    public Integer getEpisodios() {
+		return episodios;
+	}
+
+	public void setEpisodios(Integer episodios) {
+		this.episodios = episodios;
+	}
+
+	public Integer getTemporadas() {
+		return temporadas;
+	}
+
+	public void setTemporadas(Integer temporadas) {
+		this.temporadas = temporadas;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Serie() {
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getTitulo() {
@@ -46,14 +73,6 @@ public class FilmeRequestDTO {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public Integer getDuracao() {
-        return duracao;
-    }
-
-    public void setDuracao(Integer duracao) {
-        this.duracao = duracao;
     }
 
     public LocalDate getDataLancamento() {
@@ -78,13 +97,5 @@ public class FilmeRequestDTO {
 
     public void setNotaMedia(Double notaMedia) {
         this.notaMedia = notaMedia;
-    }
-    
-    public List<Long> getCategoriasIds() {
-        return categoriasIds;
-    }
-
-    public void setCategoriasIds(List<Long> categoriasIds) {
-        this.categoriasIds = categoriasIds;
     }
 }

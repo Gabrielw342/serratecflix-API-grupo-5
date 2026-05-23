@@ -1,4 +1,4 @@
-package entity;
+package com.streamingflix.serraflixgrupo5.entity;
 
 import jakarta.persistence.*;
 
