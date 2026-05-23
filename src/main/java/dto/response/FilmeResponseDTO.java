@@ -1,38 +1,37 @@
-package com.streamingflix.serraflixgrupo5.entity;
+package dto.response;
 
 import java.time.LocalDate;
 
+import java.util.List;
 import com.streamingflix.serraflixgrupo5enum.ClassificacaoIndicativa;
 
-import jakarta.persistence.*;
+public class FilmeResponseDTO {
 
-@Entity
-@Table(name = "filmes")
-public class Filme {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String titulo;
 
-    @Column(columnDefinition = "TEXT")
     private String descricao;
 
     private Integer duracao;
 
     private LocalDate dataLancamento;
 
-    @Enumerated(EnumType.STRING)
     private ClassificacaoIndicativa classificacaoIndicativa;
 
     private Double notaMedia;
+    
+    private List<String> categorias;
 
-    public Filme() {
+    public FilmeResponseDTO() {
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitulo() {
@@ -82,4 +81,14 @@ public class Filme {
     public void setNotaMedia(Double notaMedia) {
         this.notaMedia = notaMedia;
     }
+
+	public List<String> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<String> categorias) {
+		this.categorias = categorias;
+	}
+
+  
 }
