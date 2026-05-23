@@ -36,7 +36,7 @@ public class Usuario {
 	@Column(nullable = false)
 	private LocalDate dataCriacao;
 
-	private Long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -44,27 +44,27 @@ public class Usuario {
 		this.id = id;
 	}
 
-	private String getNome() {
+	public String getNome() {
 		return nome;
 	}
 
-	private void setNome(String nome) {
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
-	private String getEmail() {
+	public String getEmail() {
 		return email;
 	}
 
-	private void setEmail(String email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	private String getUsername() {
+	public String getUsername() {
 		return username;
 	}
 
-	private void setUsername(String username) {
+	public void setUsername(String username) {
 		this.username = username;
 	}
 
@@ -72,7 +72,7 @@ public class Usuario {
 		return senha;
 	}
 
-	private void setSenha(String senha) {
+	public void setSenha(String senha) {
 		this.senha = senha;
 	}
 

@@ -45,7 +45,7 @@ public class UsuarioRequestDTO {
 		this.id = id;
 	}
 
-	private String getNome() {
+	public String getNome() {
 		return nome;
 	}
 
@@ -53,7 +53,7 @@ public class UsuarioRequestDTO {
 		this.nome = nome;
 	}
 
-	private String getEmail() {
+	public String getEmail() {
 		return email;
 	}
 
@@ -61,7 +61,7 @@ public class UsuarioRequestDTO {
 		this.email = email;
 	}
 
-	private String getUsername() {
+	public String getUsername() {
 		return username;
 	}
 
@@ -69,7 +69,7 @@ public class UsuarioRequestDTO {
 		this.username = username;
 	}
 
-	private String getSenha() {
+	public String getSenha() {
 		return senha;
 	}
 

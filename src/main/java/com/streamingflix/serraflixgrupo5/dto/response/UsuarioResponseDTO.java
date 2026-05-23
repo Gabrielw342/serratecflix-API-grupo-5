@@ -15,7 +15,7 @@ public class UsuarioResponseDTO {
 		return id;
 	}
 
-	private void setId(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -23,7 +23,7 @@ public class UsuarioResponseDTO {
 		return nome;
 	}
 
-	private void setNome(String nome) {
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
@@ -31,7 +31,7 @@ public class UsuarioResponseDTO {
 		return email;
 	}
 
-	private void setEmail(String email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 
@@ -39,7 +39,7 @@ public class UsuarioResponseDTO {
 		return username;
 	}
 
-	private void setUsername(String username) {
+	public void setUsername(String username) {
 		this.username = username;
 	}
 
