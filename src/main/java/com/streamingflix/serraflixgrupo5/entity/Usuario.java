@@ -76,11 +76,11 @@ public class Usuario {
 		this.senha = senha;
 	}
 
-	private LocalDate getDataCriacao() {
-		return dataCriacao;
-	}
+	public LocalDate getDataCriacao() {
+        return dataCriacao;
+    }
 
-	private void setDataCriacao(LocalDate dataCriacao) {
-		this.dataCriacao = dataCriacao;
-	}
+    public void setDataCriacao(LocalDate dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
 }
