@@ -7,6 +7,7 @@ import com.streamingflix.serraflixgrupo5.dto.request.UsuarioRequestDTO;
 import com.streamingflix.serraflixgrupo5.dto.response.UsuarioResponseDTO;
 import com.streamingflix.serraflixgrupo5.entity.Usuario;
 import com.streamingflix.serraflixgrupo5.exception.ConflictException;
+import com.streamingflix.serraflixgrupo5.exception.ResourceNotFoundException;
 import com.streamingflix.serraflixgrupo5.repository.UsuarioRepository;
 
 @Service
@@ -32,6 +33,12 @@ public class UsuarioService {
         usuario = usuarioRepository.save(usuario);
         return toResponseDTO(usuario);
 	}
+	
+	public UsuarioResponseDTO buscarPorId(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com id: " + id));
+        return toResponseDTO(usuario);
+    }
 	
 	private UsuarioResponseDTO toResponseDTO(Usuario usuario) {
 	    UsuarioResponseDTO dto = new UsuarioResponseDTO();
