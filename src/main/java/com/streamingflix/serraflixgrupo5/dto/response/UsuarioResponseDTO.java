@@ -9,6 +9,7 @@ public class UsuarioResponseDTO {
     private String nome;
     private String email;
     private String username;
+    private String fotoPerfil;
     private LocalDate dataCriacao;
     
     private Long getId() {
@@ -41,6 +42,14 @@ public class UsuarioResponseDTO {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	public String getFotoPerfil() {
+		return fotoPerfil;
+	}
+	
+	public void setFotoPerfil(String fotoPerfil) {
+		this.fotoPerfil = fotoPerfil;
 	}
 
 	public LocalDate getDataCriacao() {

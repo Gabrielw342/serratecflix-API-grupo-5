@@ -34,6 +34,8 @@ public class UsuarioRequestDTO {
 	@Size(min = 8, message = "Senha deve ter no mínimo 8 caracteres")
 	private String senha;
 	
+	private String fotoPerfil;
+	
 	@Column(nullable = false)
 	private LocalDate dataCriacao;
 
@@ -75,6 +77,14 @@ public class UsuarioRequestDTO {
 
 	private void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	public String getFotoPerfil() {
+		return fotoPerfil;
+	}
+	
+	public void setFotoPerfil(String fotoPerfil) {
+		this.fotoPerfil = fotoPerfil;
 	}
 
 	public LocalDate getDataCriacao() {
