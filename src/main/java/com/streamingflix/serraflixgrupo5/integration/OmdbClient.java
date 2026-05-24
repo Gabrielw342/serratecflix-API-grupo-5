@@ -13,7 +13,7 @@ import com.google.gson.JsonObject;
 
 public class OmdbClient {
 
-    private static final String API_KEY = "SUA_API_KEY";
+    private static final String API_KEY = "d3c6e4a6";
 
     private static final String URL_BASE = "https://www.omdbapi.com/";
 
@@ -55,10 +55,8 @@ public class OmdbClient {
                 System.out.println("Filme não encontrado!");
                 return;
             }
-
-            System.out.println("=================================");
-            System.out.println("FILME ENCONTRADO!");
-            System.out.println("=================================");
+            System.out.println("Aqui o filme que voce procurou");
+            
 
             System.out.println("Título: "
                     + objeto.get("Title").getAsString());

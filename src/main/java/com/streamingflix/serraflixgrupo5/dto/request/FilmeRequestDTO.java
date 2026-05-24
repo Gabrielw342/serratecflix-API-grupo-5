@@ -9,12 +9,20 @@ import com.streamingflix.serraflixgrupo5.enums.ClassificacaoIndicativa;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 public class FilmeRequestDTO {
 
     @NotBlank
+    @Size(min= 1, max= 60)
     private String titulo;
 
     @NotBlank
+    @Size(min= 1, max= 60)
     private String descricao;
 
     @NotNull
@@ -26,6 +34,8 @@ public class FilmeRequestDTO {
     @NotNull
     private ClassificacaoIndicativa classificacaoIndicativa;
 
+    @DecimalMin(value = "0.0")
+    @DecimalMax(value = "10.0")
     private Double notaMedia;
     
     private List<Long> categoriasIds;

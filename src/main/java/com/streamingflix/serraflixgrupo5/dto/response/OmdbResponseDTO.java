@@ -5,8 +5,8 @@ public class OmdbResponseDTO {
     private String Title;
     private String Year;
     private String Director;
-    private String imdbRating;
     private String Genre;
+    private String imdbRating;
     private String Plot;
 
     public String getTitle() {
@@ -33,20 +33,20 @@ public class OmdbResponseDTO {
         Director = director;
     }
 
-    public String getImdbRating() {
-        return imdbRating;
-    }
-
-    public void setImdbRating(String imdbRating) {
-        this.imdbRating = imdbRating;
-    }
-
     public String getGenre() {
         return Genre;
     }
 
     public void setGenre(String genre) {
         Genre = genre;
+    }
+
+    public String getImdbRating() {
+        return imdbRating;
+    }
+
+    public void setImdbRating(String imdbRating) {
+        this.imdbRating = imdbRating;
     }
 
     public String getPlot() {
