@@ -156,7 +156,7 @@ public class FilmeService {
         List<String> categorias = new ArrayList<>();
 
        
-        // deixei assim para poder fazer testes antes da entidade Categoria ficar pronta e eu puder fazer o pull
+        // deixei null para poder fazer testes antes da entidade Categoria ficar pronta e eu puder fazer o pull
         
         if (filme.getCategorias() != null) {
 
