@@ -1,7 +1,7 @@
 package com.streamingflix.serraflixgrupo5.service;
 
-import com.streamingflix.serraflixgrupo5.dto.ListaFavoritosRequestDTO;
-import com.streamingflix.serraflixgrupo5.dto.ListaFavoritosResponseDTO;
+import com.streamingflix.serraflixgrupo5.dto.request.ListaFavoritosRequestDTO;
+import com.streamingflix.serraflixgrupo5.dto.response.ListaFavoritosResponseDTO;
 import com.streamingflix.serraflixgrupo5.entity.ListaFavoritos;
 import com.streamingflix.serraflixgrupo5.entity.Usuario;
 import com.streamingflix.serraflixgrupo5.repository.ListaFavoritosRepository;
@@ -23,6 +23,12 @@ public class ListaFavoritosService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private com.streamingflix.serraflixgrupo5.repository.FilmeRepository filmeRepository;
+
+    @Autowired
+    private com.streamingflix.serraflixgrupo5.repository.SerieRepository serieRepository;
 
     public ListaFavoritosResponseDTO criarLista(ListaFavoritosRequestDTO dto) {
         Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
@@ -70,6 +76,37 @@ public class ListaFavoritosService {
         ListaFavoritos lista = repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Lista de favoritos não encontrada!"));
         repository.delete(lista);
+    }
+
+    public List<ListaFavoritosResponseDTO> listarPublicas() {
+        List<ListaFavoritos> listas = repository.findByPrivadaFalse();
+        return listas.stream()
+                .map(this::converterParaResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    public ListaFavoritosResponseDTO adicionarFilme(Long listaId, Long filmeId) {
+        ListaFavoritos lista = repository.findById(listaId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Lista não encontrada!"));
+
+        com.streamingflix.serraflixgrupo5.entity.Filme filme = filmeRepository.findById(filmeId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Filme não encontrado!"));
+
+        lista.getFilmes().add(filme);
+        lista = repository.save(lista);
+        return converterParaResponseDTO(lista);
+    }
+
+    public ListaFavoritosResponseDTO adicionarSerie(Long listaId, Long serieId) {
+        ListaFavoritos lista = repository.findById(listaId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Lista não encontrada!"));
+
+        com.streamingflix.serraflixgrupo5.entity.Serie serie = serieRepository.findById(serieId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Série não encontrado!"));
+
+        lista.getSeries().add(serie);
+        lista = repository.save(lista);
+        return converterParaResponseDTO(lista);
     }
 
     private ListaFavoritosResponseDTO converterParaResponseDTO(ListaFavoritos lista) {
