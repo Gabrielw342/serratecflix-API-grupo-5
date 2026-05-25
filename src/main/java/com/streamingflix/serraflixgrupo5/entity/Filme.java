@@ -12,7 +12,6 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "filmes")
 public class Filme {
-	
 
 	@ManyToMany
 	@JoinTable(
