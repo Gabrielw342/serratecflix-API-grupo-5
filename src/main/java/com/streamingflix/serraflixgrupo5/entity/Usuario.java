@@ -3,6 +3,8 @@ package com.streamingflix.serraflixgrupo5.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
  
 @Entity
 @Table(name = "usuarios")
@@ -36,11 +38,14 @@ public class Usuario {
  
     @Column(nullable = false)
     private LocalDate dataCriacao;
- 
+    
     @PrePersist
     private void prePersist() {
         this.dataCriacao = LocalDate.now();
     }
+    
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ListaFavoritos> listaFavoritos = new ArrayList<>();
  
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -62,4 +67,7 @@ public class Usuario {
  
     public LocalDate getDataCriacao() { return dataCriacao; }
     public void setDataCriacao(LocalDate dataCriacao) { this.dataCriacao = dataCriacao; }
+
+	public List<ListaFavoritos> getListaFavoritos() { return listaFavoritos; }
+	public void setListaFavoritos(List<ListaFavoritos> listaFavoritos) { this.listaFavoritos = listaFavoritos;}
 }
