@@ -1,4 +1,4 @@
-package com.streamingflix.serraflixgrupo5.enums;
+package com.streamingflix.serraflixgrupo5enum;
 
 public enum ClassificacaoIndicativa {
 

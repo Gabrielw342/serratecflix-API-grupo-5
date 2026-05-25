@@ -2,7 +2,7 @@ package com.streamingflix.serraflixgrupo5.entity;
 
 import java.time.LocalDate;
 
-import com.streamingflix.serraflixgrupo5.enums.ClassificacaoIndicativa;
+import com.streamingflix.serraflixgrupo5enum.ClassificacaoIndicativa;
 
 import jakarta.persistence.*;
 

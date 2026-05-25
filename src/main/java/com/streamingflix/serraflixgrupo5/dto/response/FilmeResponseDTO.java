@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import java.util.List;
 
-import com.streamingflix.serraflixgrupo5.enums.ClassificacaoIndicativa;
+import com.streamingflix.serraflixgrupo5enum.ClassificacaoIndicativa;
 
 public class FilmeResponseDTO {
 
