@@ -16,6 +16,6 @@ public class SwaggerConfig {
                 .info(new Info()
                         .title("SerraFlix API")
                         .version("1.0")
-                        .description("API REST de catálogo de filmes e séries"));
+                        .description("API REST do grupo 5 sobre o catálogo de filmes e séries"));
     }
 }

@@ -26,7 +26,6 @@ public class FilmeService {
 
     public FilmeResponseDTO salvar(FilmeRequestDTO dto) {
 
-        //essas partes fazem as regra do negocio
         if (dto.getDuracao() <= 0) {
             throw new BadRequestException(
                     "ERRO! duração deve ser maior que zero");
@@ -170,5 +169,20 @@ public class FilmeService {
         dto.setCategorias(categorias);
 
         return dto;
+    }
+    
+    public List<FilmeResponseDTO> listarPorMaiorNota() {
+
+        List<Filme> filmes =
+                filmeRepository.findAllByOrderByNotaMediaDesc();
+
+        List<FilmeResponseDTO> resposta = new ArrayList<>();
+
+        for (Filme filme : filmes) {
+
+            resposta.add(converterParaResponse(filme));
+        }
+
+        return resposta;
     }
 }

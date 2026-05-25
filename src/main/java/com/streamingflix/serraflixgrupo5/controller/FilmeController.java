@@ -56,6 +56,14 @@ public class FilmeController {
 
         return filmeService.buscarPorId(id);
     }
+    
+    @GetMapping("/ranking")
+    @Operation(summary = "Lista filmes da maior nota para menor bem maneiro e silmples")
+    public List<FilmeResponseDTO> listarPorMaiorNota() {
+
+    	
+        return filmeService.listarPorMaiorNota();
+    }
 
     @Operation(summary = "deleta um filme pela sua id")
     @DeleteMapping("/{id}")

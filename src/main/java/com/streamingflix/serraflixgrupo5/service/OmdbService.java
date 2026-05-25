@@ -69,7 +69,7 @@ public class OmdbService {
                     .equals("False")) {
 
                 throw new ResourceNotFoundException(
-                        "Filme não encontrado na OMDb API");
+                        "Filme não encontrado na API exterha OMDB");
             }
 
             return gson.fromJson(

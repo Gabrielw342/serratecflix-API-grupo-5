@@ -92,11 +92,4 @@ public class OmdbClient {
             e.printStackTrace();
         }
     }
-   
-    public static void main(String[] args) {
-
-        OmdbClient client = new OmdbClient();
-
-        client.buscarFilme("Interstellar");
-    }
 }
