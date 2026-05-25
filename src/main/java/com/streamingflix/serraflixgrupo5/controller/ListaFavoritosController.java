@@ -1,7 +1,7 @@
 package com.streamingflix.serraflixgrupo5.controller;
 
-import com.streamingflix.serraflixgrupo5.dto.ListaFavoritosRequestDTO;
-import com.streamingflix.serraflixgrupo5.dto.ListaFavoritosResponseDTO;
+import com.streamingflix.serraflixgrupo5.dto.request.ListaFavoritosRequestDTO;
+import com.streamingflix.serraflixgrupo5.dto.response.ListaFavoritosResponseDTO;
 import com.streamingflix.serraflixgrupo5.service.ListaFavoritosService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
