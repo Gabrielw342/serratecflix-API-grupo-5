@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
  
 import java.io.IOException;
+import java.util.List;
  
 @Service
 public class FotoService {
@@ -20,11 +21,21 @@ public class FotoService {
  
     @Autowired
     private UsuarioRepository usuarioRepository;
+    
+    private static final List<String> TIPOS_PERMITIDOS = List.of(
+    	    "image/jpeg", "image/png", "image/gif", "image/webp"
+    	);
  
     @Transactional
     public Foto salvarFoto(Long usuarioId, MultipartFile arquivo) throws IOException {
         if (arquivo.isEmpty()) {
             throw new IllegalArgumentException("Arquivo vazio");
+        }
+        
+        if (!TIPOS_PERMITIDOS.contains(arquivo.getContentType())) {
+            throw new IllegalArgumentException(
+                "Tipo de arquivo não permitido. Use: JPEG, PNG, GIF ou WEBP"
+            );
         }
  
         Usuario usuario = usuarioRepository.findById(usuarioId)
