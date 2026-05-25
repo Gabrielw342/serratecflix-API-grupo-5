@@ -1,6 +1,8 @@
 package com.streamingflix.serraflixgrupo5.dto.response;
 
 import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
  
 public class UsuarioResponseDTO {
  
@@ -8,6 +10,7 @@ public class UsuarioResponseDTO {
     private String nome;
     private String email;
     private String username;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataCriacao;
     private String fotoPerfil;
  
