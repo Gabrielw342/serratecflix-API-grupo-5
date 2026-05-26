@@ -3,6 +3,7 @@ package com.streamingflix.serraflixgrupo5.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
  
@@ -44,6 +45,15 @@ public class Usuario {
     private void prePersist() {
         this.dataCriacao = LocalDate.now();
     }
+    
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<AvaliacaoFilme> avaliacoesFilme;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<AvaliacaoSerie> avaliacoesSerie;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<ListaFavoritos> listasFavoritos;
 
 	public Long getId() {
 		return id;
