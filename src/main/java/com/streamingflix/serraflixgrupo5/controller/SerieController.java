@@ -1,10 +1,11 @@
 package com.streamingflix.serraflixgrupo5.controller;
 
-import com.streamingflix.serraflixgrupo5.dto.request.AvaliacaoSerieRequest;
+import com.streamingflix.serraflixgrupo5.deletar.*;
+import com.streamingflix.serraflixgrupo5.deletar.AvaliacaoSerieResponseDTO;
+import com.streamingflix.serraflixgrupo5.deletar.AvaliacaoSerieRequestDTO;
+
 import com.streamingflix.serraflixgrupo5.dto.request.SerieRequest;
-import com.streamingflix.serraflixgrupo5.dto.response.AvaliacaoSerieResponse;
 import com.streamingflix.serraflixgrupo5.dto.response.SerieResponse;
-import com.streamingflix.serraflixgrupo5.service.AvaliacaoSerieService;
 import com.streamingflix.serraflixgrupo5.service.SerieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
