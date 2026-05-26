@@ -3,8 +3,6 @@ package com.streamingflix.serraflixgrupo5.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
-/*import java.util.ArrayList;
-import java.util.List;*/
 
 import com.fasterxml.jackson.annotation.JsonFormat;
  
@@ -46,31 +44,60 @@ public class Usuario {
     private void prePersist() {
         this.dataCriacao = LocalDate.now();
     }
-    
-    /*@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ListaFavoritos> listaFavoritos = new ArrayList<>();*/
- 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
- 
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
- 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
- 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
- 
-    public String getSenha() { return senha; }
-    public void setSenha(String senha) { this.senha = senha; }
- 
-    public Foto getFotoPerfil() { return fotoPerfil; }
-    public void setFotoPerfil(Foto fotoPerfil) { this.fotoPerfil = fotoPerfil; }
- 
-    public LocalDate getDataCriacao() { return dataCriacao; }
-    public void setDataCriacao(LocalDate dataCriacao) { this.dataCriacao = dataCriacao; }
 
-	/*public List<ListaFavoritos> getListaFavoritos() { return listaFavoritos; }
-	public void setListaFavoritos(List<ListaFavoritos> listaFavoritos) { this.listaFavoritos = listaFavoritos;}*/
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public Foto getFotoPerfil() {
+		return fotoPerfil;
+	}
+
+	public void setFotoPerfil(Foto fotoPerfil) {
+		this.fotoPerfil = fotoPerfil;
+	}
+
+	public LocalDate getDataCriacao() {
+		return dataCriacao;
+	}
+
+	public void setDataCriacao(LocalDate dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
 }
