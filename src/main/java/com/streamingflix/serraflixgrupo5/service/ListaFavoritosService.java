@@ -4,12 +4,13 @@ import com.streamingflix.serraflixgrupo5.dto.request.ListaFavoritosRequestDTO;
 import com.streamingflix.serraflixgrupo5.dto.response.ListaFavoritosResponseDTO;
 import com.streamingflix.serraflixgrupo5.entity.ListaFavoritos;
 import com.streamingflix.serraflixgrupo5.entity.Usuario;
+import com.streamingflix.serraflixgrupo5.exception.ResourceNotFoundException;
+import com.streamingflix.serraflixgrupo5.repository.FilmeRepository;
 import com.streamingflix.serraflixgrupo5.repository.ListaFavoritosRepository;
+import com.streamingflix.serraflixgrupo5.repository.SerieRepository;
 import com.streamingflix.serraflixgrupo5.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -25,14 +26,14 @@ public class ListaFavoritosService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private com.streamingflix.serraflixgrupo5.repository.FilmeRepository filmeRepository;
+    private FilmeRepository filmeRepository;
 
     @Autowired
-    private com.streamingflix.serraflixgrupo5.repository.SerieRepository serieRepository;
+    private SerieRepository serieRepository;
 
     public ListaFavoritosResponseDTO criarLista(ListaFavoritosRequestDTO dto) {
         Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com id: " + dto.getUsuarioId()));
 
         ListaFavoritos lista = new ListaFavoritos();
         lista.setNomeLista(dto.getNomeLista());
@@ -53,16 +54,16 @@ public class ListaFavoritosService {
 
     public ListaFavoritosResponseDTO buscarPorId(Long id) {
         ListaFavoritos lista = repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Lista de favoritos não encontrada!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Lista de favoritos não encontrada com id: " + id));
         return converterParaResponseDTO(lista);
     }
 
     public ListaFavoritosResponseDTO atualizar(Long id, ListaFavoritosRequestDTO dto) {
         ListaFavoritos listaExistente = repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Lista de favoritos não encontrada!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Lista de favoritos não encontrada com id: " + id));
 
         Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com id: " + dto.getUsuarioId()));
 
         listaExistente.setNomeLista(dto.getNomeLista());
         listaExistente.setPrivada(dto.getPrivada());
@@ -74,7 +75,7 @@ public class ListaFavoritosService {
 
     public void deletar(Long id) {
         ListaFavoritos lista = repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Lista de favoritos não encontrada!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Lista de favoritos não encontrada com id: " + id));
         repository.delete(lista);
     }
 
@@ -87,10 +88,10 @@ public class ListaFavoritosService {
 
     public ListaFavoritosResponseDTO adicionarFilme(Long listaId, Long filmeId) {
         ListaFavoritos lista = repository.findById(listaId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Lista não encontrada!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Lista não encontrada com id: " + listaId));
 
         com.streamingflix.serraflixgrupo5.entity.Filme filme = filmeRepository.findById(filmeId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Filme não encontrado!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Filme não encontrado com id: " + filmeId));
 
         lista.getFilmes().add(filme);
         lista = repository.save(lista);
@@ -99,10 +100,10 @@ public class ListaFavoritosService {
 
     public ListaFavoritosResponseDTO adicionarSerie(Long listaId, Long serieId) {
         ListaFavoritos lista = repository.findById(listaId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Lista não encontrada!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Lista não encontrada com id: " + listaId));
 
         com.streamingflix.serraflixgrupo5.entity.Serie serie = serieRepository.findById(serieId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Série não encontrado!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Série não encontrada com id: " + serieId));
 
         lista.getSeries().add(serie);
         lista = repository.save(lista);
