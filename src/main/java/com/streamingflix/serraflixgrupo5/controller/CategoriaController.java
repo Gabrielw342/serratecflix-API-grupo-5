@@ -27,20 +27,20 @@ public class CategoriaController {
     @Autowired
     private CategoriaService categoriaService;
 
-    //@Operation(summary = "Cadastrar uma categoria")
+    @Operation(summary = "Cadastrar uma categoria")
     @PostMapping
     public ResponseEntity<CategoriaDTOResponse> inserir(@Valid @RequestBody CategoriaDTORequest categoria){
         CategoriaDTOResponse criado = categoriaService.inserir(categoria);
         return ResponseEntity.status(HttpStatus.CREATED).body(criado);
     }
 
-    //@Operation(summary = "Listar categorias", description = "Retorna todas as categorias cadastradas")
+    @Operation(summary = "Listar categorias", description = "Retorna todas as categorias cadastradas")
     @GetMapping
     public ResponseEntity<List<CategoriaDTOResponse>> listar(){
         return ResponseEntity.ok(categoriaService.listar());
     }
 
-    //@Operation(summary = "Buscar categoria por ID", description = "Retorna uma categoria específica por ID")
+    @Operation(summary = "Buscar categoria por ID", description = "Retorna uma categoria específica por ID")
     @GetMapping("/{id}")
     public ResponseEntity<CategoriaDTOResponse> buscar(@PathVariable Long id){
         CategoriaDTOResponse categoria = categoriaService.buscarPorId(id);
@@ -52,7 +52,7 @@ public class CategoriaController {
         return ResponseEntity.ok(categoria);
     }
 
-    //@Operation(summary = "Atualizar categoria", description = "Atualiza os dados de uma categoria existente")
+    @Operation(summary = "Atualizar categoria", description = "Atualiza os dados de uma categoria existente")
     @PutMapping("/{id}")
     public ResponseEntity<CategoriaDTOResponse> atualizar(
             @Valid @RequestBody CategoriaDTORequest categoria,
