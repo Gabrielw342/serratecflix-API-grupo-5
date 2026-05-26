@@ -1,23 +1,16 @@
-package com.streamingflix.serraflixgrupo5.entity;
+package com.streamingflix.serraflixgrupo5.dto.request;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "categorias")
-public class Categoria {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class CategoriaDTORequest {
 
     private String nome;
-
     private String descricao;
 
-    public Categoria() {
+    public CategoriaDTORequest() {
     }
 
-    public Long getId() {
-        return id;
+    public CategoriaDTORequest(String nome, String descricao) {
+        this.nome = nome;
+        this.descricao = descricao;
     }
 
     public String getNome() {
