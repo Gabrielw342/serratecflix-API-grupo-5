@@ -42,6 +42,14 @@ public class FilmeController {
 
         return filmeService.salvar(dto);
     }
+    
+    @PostMapping("/importar/{titulo}")
+    @Operation(summary = "Importa filme da OMDb e salva no banco")
+    public FilmeResponseDTO importarFilme(
+            @PathVariable String titulo) {
+
+        return filmeService.importarFilme(titulo);
+    }
 
     @Operation(summary = "voce busca todos os filmes")
     @GetMapping
