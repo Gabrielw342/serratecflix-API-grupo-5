@@ -1,4 +1,4 @@
-package com.streamingflix_avaliacao.exception;
+package com.streamingflix.serraflixgrupo5.exception;
 
 import java.time.Instant;
 

@@ -1,10 +1,15 @@
-package com.streamingflix.serraflixgrupo5.entity;
+package com.streamingflix_avaliacao.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 import java.time.LocalDate;
-
-import com.streamingflix.serraflixgrupo5enum.ClassificacaoIndicativa;
-
-import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "filmes")
@@ -15,24 +20,32 @@ public class Filme {
     private Long id;
 
     private String titulo;
-
-    @Column(columnDefinition = "TEXT")
     private String descricao;
-
     private Integer duracao;
-
     private LocalDate dataLancamento;
 
-    @Enumerated(EnumType.STRING)
-    private ClassificacaoIndicativa classificacaoIndicativa;
+    // Alterado de Enum para Integer e anotação @Enumerated removida
+    private Integer classificacaoIndicativa;
 
-    private Double notaMedia;
+    private Double notaMedia = 0.0;
+
+    @ManyToMany
+    @JoinTable(
+        name = "filme_categoria",
+        joinColumns = @JoinColumn(name = "filme_id"),
+        inverseJoinColumns = @JoinColumn(name = "categoria_id")
+    )
+    private List<Categoria> categorias;
 
     public Filme() {
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitulo() {
@@ -67,11 +80,12 @@ public class Filme {
         this.dataLancamento = dataLancamento;
     }
 
-    public ClassificacaoIndicativa getClassificacaoIndicativa() {
+    // Getter e Setter alterados para Integer
+    public Integer getClassificacaoIndicativa() {
         return classificacaoIndicativa;
     }
 
-    public void setClassificacaoIndicativa(ClassificacaoIndicativa classificacaoIndicativa) {
+    public void setClassificacaoIndicativa(Integer classificacaoIndicativa) {
         this.classificacaoIndicativa = classificacaoIndicativa;
     }
 
@@ -81,5 +95,13 @@ public class Filme {
 
     public void setNotaMedia(Double notaMedia) {
         this.notaMedia = notaMedia;
+    }
+
+    public List<Categoria> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(List<Categoria> categorias) {
+        this.categorias = categorias;
     }
 }

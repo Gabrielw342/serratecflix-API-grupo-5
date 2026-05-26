@@ -1,4 +1,4 @@
-package com.streamingflix.serraflixgrupo5enum;
+package com.streamingflix_avaliacao.enums;
 
 public enum ClassificacaoIndicativa {
 
@@ -8,5 +8,4 @@ public enum ClassificacaoIndicativa {
     QUATORZE,
     DEZESSEIS,
     DEZOITO
-
 }
