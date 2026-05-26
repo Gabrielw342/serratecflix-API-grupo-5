@@ -24,59 +24,41 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController {
+
     @Autowired
     private CategoriaService categoriaService;
 
-    //@Operation(summary = "Cadastrar uma categoria")
+    @Operation(summary = "Cadastrar uma categoria")
     @PostMapping
-    public ResponseEntity<CategoriaDTOResponse> inserir(@Valid @RequestBody CategoriaDTORequest categoria){
+    public ResponseEntity<CategoriaDTOResponse> inserir(@Valid @RequestBody CategoriaDTORequest categoria) {
         CategoriaDTOResponse criado = categoriaService.inserir(categoria);
         return ResponseEntity.status(HttpStatus.CREATED).body(criado);
     }
 
-    //@Operation(summary = "Listar categorias", description = "Retorna todas as categorias cadastradas")
+    @Operation(summary = "Listar categorias", description = "Retorna todas as categorias cadastradas")
     @GetMapping
-    public ResponseEntity<List<CategoriaDTOResponse>> listar(){
+    public ResponseEntity<List<CategoriaDTOResponse>> listar() {
         return ResponseEntity.ok(categoriaService.listar());
     }
 
-    //@Operation(summary = "Buscar categoria por ID", description = "Retorna uma categoria específica por ID")
+    @Operation(summary = "Buscar categoria por ID", description = "Retorna uma categoria específica por ID")
     @GetMapping("/{id}")
-    public ResponseEntity<CategoriaDTOResponse> buscar(@PathVariable Long id){
-        CategoriaDTOResponse categoria = categoriaService.buscarPorId(id);
-
-        if (categoria == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(categoria);
+    public ResponseEntity<CategoriaDTOResponse> buscar(@PathVariable Long id) {
+        return ResponseEntity.ok(categoriaService.buscarPorId(id));
     }
 
-    //@Operation(summary = "Atualizar categoria", description = "Atualiza os dados de uma categoria existente")
+    @Operation(summary = "Atualizar categoria", description = "Atualiza os dados de uma categoria existente")
     @PutMapping("/{id}")
     public ResponseEntity<CategoriaDTOResponse> atualizar(
             @Valid @RequestBody CategoriaDTORequest categoria,
             @PathVariable Long id) {
-
-        CategoriaDTOResponse atualizado = categoriaService.atualizar(id, categoria);
-
-        if (atualizado == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(atualizado);
+        return ResponseEntity.ok(categoriaService.atualizar(id, categoria));
     }
 
     @Operation(summary = "Remover categoria", description = "Remove uma categoria pelo ID")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> remover(@PathVariable Long id){
-        boolean removido = categoriaService.deletar(id);
-
-        if (!removido) {
-            return ResponseEntity.notFound().build();
-        }
-
+    public ResponseEntity<Void> remover(@PathVariable Long id) {
+        categoriaService.deletar(id);
         return ResponseEntity.noContent().build();
     }
 }
-

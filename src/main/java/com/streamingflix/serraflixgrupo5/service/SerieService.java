@@ -49,8 +49,8 @@ public class SerieService {
         serie.setDataLancamento(request.getDataLancamento());
         serie.setNotaMedia(0.0);
 
-        if (request.getCategoriaIds() != null && !request.getCategoriaIds().isEmpty()) {
-            List<Categoria> categorias = categoriaRepository.findAllById(request.getCategoriaIds());
+        if (request.getCategoriaIds() != null && !request.categoriasIds().isEmpty()) {
+            List<Categoria> categorias = categoriaRepository.findAllById(request.categoriasIds());
             serie.setCategorias(categorias);
         }
 
