@@ -8,8 +8,37 @@ public class OmdbResponseDTO {
     private String Genre;
     private String imdbRating;
     private String Plot;
+    private String Released;
+    private String Runtime;
+    private String Rated;
+   
+    
 
-    public String getTitle() {
+    public String getReleased() {
+		return Released;
+	}
+
+	public void setReleased(String released) {
+		Released = released;
+	}
+
+	public String getRuntime() {
+		return Runtime;
+	}
+
+	public void setRuntime(String runtime) {
+		Runtime = runtime;
+	}
+
+	public String getRated() {
+		return Rated;
+	}
+
+	public void setRated(String rated) {
+		Rated = rated;
+	}
+
+	public String getTitle() {
         return Title;
     }
 

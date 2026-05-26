@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.streamingflix.serraflixgrupo5.dto.request.FilmeRequestDTO;
 import com.streamingflix.serraflixgrupo5.dto.response.FilmeResponseDTO;
+import com.streamingflix.serraflixgrupo5.dto.response.OmdbResponseDTO;
 import com.streamingflix.serraflixgrupo5.entity.Categoria;
 import com.streamingflix.serraflixgrupo5.entity.Filme;
 import com.streamingflix.serraflixgrupo5.exception.BadRequestException;
@@ -17,6 +18,9 @@ import com.streamingflix.serraflixgrupo5.repository.FilmeRepository;
 
 @Service
 public class FilmeService {
+	
+	@Autowired
+	private OmdbService omdbService;
 
     @Autowired
     private FilmeRepository filmeRepository;
@@ -184,5 +188,29 @@ public class FilmeService {
         }
 
         return resposta;
+    }
+    
+    public FilmeResponseDTO importarFilme(String titulo) {
+
+      
+        OmdbResponseDTO omdb =
+                omdbService.buscarFilme(titulo);
+
+        Filme filme = new Filme();
+
+        filme.setTitulo(omdb.getTitle());
+
+        filme.setDescricao(omdb.getPlot());
+
+      
+        filme.setNotaMedia(
+                Double.parseDouble(
+                        omdb.getImdbRating()));
+
+     
+        Filme filmeSalvo =
+                filmeRepository.save(filme);
+
+        return converterParaResponse(filmeSalvo);
     }
 }
