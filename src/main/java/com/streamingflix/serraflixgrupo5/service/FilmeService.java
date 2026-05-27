@@ -192,7 +192,6 @@ public class FilmeService {
     
     public FilmeResponseDTO importarFilme(String titulo) {
 
-      
         OmdbResponseDTO omdb =
                 omdbService.buscarFilme(titulo);
 
@@ -202,12 +201,24 @@ public class FilmeService {
 
         filme.setDescricao(omdb.getPlot());
 
-      
-        filme.setNotaMedia(
-                Double.parseDouble(
-                        omdb.getImdbRating()));
+        
+        if (!omdb.getRuntime().equals("N/A")) {
 
-     
+            String runtime =
+                    omdb.getRuntime().replace(" min", "");
+
+            filme.setDuracao(
+                    Integer.parseInt(runtime));
+        }
+
+        
+        if (!omdb.getImdbRating().equals("N/A")) {
+
+            filme.setNotaMedia(
+                    Double.parseDouble(
+                            omdb.getImdbRating()));
+        }
+
         Filme filmeSalvo =
                 filmeRepository.save(filme);
 
