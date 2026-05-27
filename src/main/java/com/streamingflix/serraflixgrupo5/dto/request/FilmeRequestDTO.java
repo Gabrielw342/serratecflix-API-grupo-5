@@ -1,54 +1,43 @@
-package com.streamingflix.serraflixgrupo5.entity;
+package com.streamingflix.serraflixgrupo5.dto.request;
 
 import java.time.LocalDate;
+
 import java.util.List;
 
 import com.streamingflix.serraflixgrupo5enum.ClassificacaoIndicativa;
 
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
-@Entity
-@Table(name = "filmes")
-public class Filme {
+public class FilmeRequestDTO {
 
-	@ManyToMany
-	@JoinTable(
-	    name = "filme_categoria",
-	    joinColumns = @JoinColumn(name = "filme_id"),
-	    inverseJoinColumns = @JoinColumn(name = "categoria_id")
-	)
-	private List<Categoria> categorias;
-	
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @NotBlank
+    @Size(min= 1, max= 60)
     private String titulo;
 
-    @Column(columnDefinition = "TEXT")
+    @NotBlank
+    @Size(min= 1, max= 60)
     private String descricao;
 
+    @NotNull
     private Integer duracao;
 
+    @NotNull
     private LocalDate dataLancamento;
 
-    @Enumerated(EnumType.STRING)
+    @NotNull
     private ClassificacaoIndicativa classificacaoIndicativa;
 
+    @DecimalMin(value = "0.0")
+    @DecimalMax(value = "10.0")
     private Double notaMedia;
-
-    public Filme() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
     
-    public void setId(Long id) {
-        this.id = id;
+    private List<Long> categoriasIds;
+
+    public FilmeRequestDTO() {
     }
 
     public String getTitulo() {
@@ -97,15 +86,13 @@ public class Filme {
 
     public void setNotaMedia(Double notaMedia) {
         this.notaMedia = notaMedia;
-        
-        
     }
     
-    public List<Categoria> getCategorias() {
-        return categorias;
+    public List<Long> getCategoriasIds() {
+        return categoriasIds;
     }
 
-    public void setCategorias(List<Categoria> categorias) {
-        this.categorias = categorias;
+    public void setCategoriasIds(List<Long> categoriasIds) {
+        this.categoriasIds = categoriasIds;
     }
 }
