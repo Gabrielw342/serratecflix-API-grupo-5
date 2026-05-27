@@ -1,4 +1,4 @@
-package com.streamingflix.serraflixgrupo5.respository;
+package com.streamingflix.serraflixgrupo5.repository;
 
 import java.util.Optional;
 import java.util.List;
