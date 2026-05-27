@@ -1,19 +1,16 @@
 package com.streamingflix.serraflixgrupo5.entity;
 
-import java.time.LocalDate;
-
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
+import jakarta.validation.constraints.*;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
+ 
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
+ 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -74,20 +71,20 @@ public class Usuario {
 		this.nome = nome;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 	public String getEmail() {
 		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getSenha() {
@@ -98,6 +95,14 @@ public class Usuario {
 		this.senha = senha;
 	}
 
+	public Foto getFotoPerfil() {
+		return fotoPerfil;
+	}
+
+	public void setFotoPerfil(Foto fotoPerfil) {
+		this.fotoPerfil = fotoPerfil;
+	}
+
 	public LocalDate getDataCriacao() {
 		return dataCriacao;
 	}
@@ -105,5 +110,4 @@ public class Usuario {
 	public void setDataCriacao(LocalDate dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
-
 }

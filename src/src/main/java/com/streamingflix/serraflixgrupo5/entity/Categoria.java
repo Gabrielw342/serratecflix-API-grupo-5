@@ -1,11 +1,11 @@
 package com.streamingflix.serraflixgrupo5.entity;
 
-import java.util.List;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "categorias")
 public class Categoria {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -13,12 +13,6 @@ public class Categoria {
     private String nome;
 
     private String descricao;
-
-    @ManyToMany(mappedBy = "categorias")
-    private List<Serie> series;
-
-    @ManyToMany(mappedBy = "categorias")
-    private List<Filme> filmes;
 
     public Categoria() {
     }
