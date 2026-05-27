@@ -1,26 +1,15 @@
 package com.streamingflix.serraflixgrupo5.entity;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import com.streamingflix.serraflixgrupo5enum.ClassificacaoIndicativa;
 
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "filmes")
-public class Filme {
+@Table(name = "series")
+public class Serie {
 
-	@ManyToMany
-	@JoinTable(
-	    name = "filme_categoria",
-	    joinColumns = @JoinColumn(name = "filme_id"),
-	    inverseJoinColumns = @JoinColumn(name = "categoria_id")
-	)
-	private List<Categoria> categorias;
-	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,16 +19,40 @@ public class Filme {
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
-    private Integer duracao;
+    private Integer episodios;
+    
+    private Integer temporadas;
 
-    private LocalDate dataLancamento;
+    private LocalDate dataLancamento; 
 
     @Enumerated(EnumType.STRING)
     private ClassificacaoIndicativa classificacaoIndicativa;
 
     private Double notaMedia;
+    
+    
 
-    public Filme() {
+    public Integer getEpisodios() {
+		return episodios;
+	}
+
+	public void setEpisodios(Integer episodios) {
+		this.episodios = episodios;
+	}
+
+	public Integer getTemporadas() {
+		return temporadas;
+	}
+
+	public void setTemporadas(Integer temporadas) {
+		this.temporadas = temporadas;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Serie() {
     }
 
     public Long getId() {
@@ -60,14 +73,6 @@ public class Filme {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public Integer getDuracao() {
-        return duracao;
-    }
-
-    public void setDuracao(Integer duracao) {
-        this.duracao = duracao;
     }
 
     public LocalDate getDataLancamento() {
@@ -92,15 +97,5 @@ public class Filme {
 
     public void setNotaMedia(Double notaMedia) {
         this.notaMedia = notaMedia;
-        
-        
-    }
-    
-    public List<Categoria> getCategorias() {
-        return categorias;
-    }
-
-    public void setCategorias(List<Categoria> categorias) {
-        this.categorias = categorias;
     }
 }
