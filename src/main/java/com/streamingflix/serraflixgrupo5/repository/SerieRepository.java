@@ -13,11 +13,9 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
 
     Optional<Serie> findById(Long id);
 
-    List<Serie> findByCategoria_Id(Long categoria_id);
+    List<Serie> findByCategorias_Id(Long categoria_id);
 
-    @Query("SELECT s FROM Serie s JOIN s.categoria c WHERE c.nome = :nomeCategoria")
+    @Query("SELECT s FROM Serie s JOIN s.categorias c WHERE c.nome = :nomeCategoria")
     List<Serie> findByCategoriaNome(String nomeCategoria);
 
-    
 }
-

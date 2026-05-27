@@ -181,12 +181,11 @@ public class FilmeController {
         )
     })
     @DeleteMapping("/{id}")
-    public void deletar(
-            @Parameter(description = "ID do filme a ser deletado", required = true)
-            @PathVariable Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Parameter(description = "ID do filme a ser deletado", required = true)
+    public void deletar(@PathVariable Long id) {
         filmeService.deletar(id);
     }
-
     @Operation(
         summary = "Atualizar filme",
         description = "Atualiza as informações de um filme existente no catálogo pelo seu ID"
