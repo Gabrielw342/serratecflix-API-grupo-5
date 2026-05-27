@@ -44,4 +44,10 @@ public class ListaFavoritosController {
         service.deletar(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{listaId}/copiar/para/{usuarioId}")
+    public ResponseEntity<ListaFavoritosResponseDTO> copiarLista(@PathVariable Long listaId, @PathVariable Long usuarioId) {
+        ListaFavoritosResponseDTO copia = service.copiarLista(listaId, usuarioId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(copia);
+    }
 }
