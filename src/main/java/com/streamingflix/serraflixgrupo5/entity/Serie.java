@@ -25,10 +25,12 @@ public class Serie {
 
     private LocalDate dataLancamento;
 
-    private Double notaMedia;
-
     @ManyToMany
-    @JoinTable(name = "serie_categoria", joinColumns = @JoinColumn(name = "serie_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
+    @JoinTable(
+        name = "serie_categoria",
+        joinColumns = @JoinColumn(name = "serie_id"),
+        inverseJoinColumns = @JoinColumn(name = "categoria_id")
+    )
     private List<Categoria> categorias = new ArrayList<>();
 
     @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL)
@@ -88,14 +90,6 @@ public class Serie {
         this.dataLancamento = dataLancamento;
     }
 
-    public Double getNotaMedia() {
-        return notaMedia;
-    }
-
-    public void setNotaMedia(Double notaMedia) {
-        this.notaMedia = notaMedia;
-    }
-
     public List<Categoria> getCategorias() {
         return categorias;
     }
@@ -119,5 +113,4 @@ public class Serie {
     public void setListasFavoritos(List<ListaFavoritos> listasFavoritos) {
         this.listasFavoritos = listasFavoritos;
     }
-
 }
