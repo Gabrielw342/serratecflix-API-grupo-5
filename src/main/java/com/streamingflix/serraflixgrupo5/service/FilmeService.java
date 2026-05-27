@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.streamingflix.serraflixgrupo5.dto.request.FilmeRequestDTO;
 import com.streamingflix.serraflixgrupo5.dto.response.FilmeResponseDTO;
 import com.streamingflix.serraflixgrupo5.dto.response.OmdbResponseDTO;
+import com.streamingflix.serraflixgrupo5.entity.AvaliacaoFilme;
 import com.streamingflix.serraflixgrupo5.entity.Categoria;
 import com.streamingflix.serraflixgrupo5.entity.Filme;
 import com.streamingflix.serraflixgrupo5.exception.BadRequestException;
@@ -35,11 +36,6 @@ public class FilmeService {
             throw new BadRequestException("ERRO! duração deve ser maior que zero");
         }
 
-        if (dto.getNotaMedia() != null &&
-                (dto.getNotaMedia() < 0 || dto.getNotaMedia() > 10)) {
-            throw new BadRequestException("ERRO! nota deve estar entre 0 e 10");
-        }
-
         Filme filme = new Filme();
 
         filme.setTitulo(dto.getTitulo());
@@ -47,7 +43,6 @@ public class FilmeService {
         filme.setDuracao(dto.getDuracao());
         filme.setDataLancamento(dto.getDataLancamento());
         filme.setClassificacaoIndicativa(dto.getClassificacaoIndicativa());
-        filme.setNotaMedia(dto.getNotaMedia());
 
         if (dto.getCategoriasIds() != null) {
             List<Categoria> categorias = categoriaRepository.findAllById(dto.getCategoriasIds());
@@ -86,17 +81,11 @@ public class FilmeService {
             throw new BadRequestException("ERRO! duração deve ser maior que zero");
         }
 
-        if (dto.getNotaMedia() != null &&
-                (dto.getNotaMedia() < 0 || dto.getNotaMedia() > 10)) {
-            throw new BadRequestException("ERRO! nota deve estar entre 0 e 10");
-        }
-
         filme.setTitulo(dto.getTitulo());
         filme.setDescricao(dto.getDescricao());
         filme.setDuracao(dto.getDuracao());
         filme.setDataLancamento(dto.getDataLancamento());
         filme.setClassificacaoIndicativa(dto.getClassificacaoIndicativa());
-        filme.setNotaMedia(dto.getNotaMedia());
 
         if (dto.getCategoriasIds() != null) {
             List<Categoria> categorias = categoriaRepository.findAllById(dto.getCategoriasIds());
@@ -116,12 +105,19 @@ public class FilmeService {
 
     public List<FilmeResponseDTO> listarPorMaiorNota() {
 
-        List<Filme> filmes = filmeRepository.findAllByOrderByNotaMediaDesc();
+        List<Filme> filmes = filmeRepository.findAll();
         List<FilmeResponseDTO> resposta = new ArrayList<>();
 
         for (Filme filme : filmes) {
             resposta.add(converterParaResponse(filme));
         }
+
+        resposta.sort((f1, f2) ->
+                Double.compare(
+                        f2.getMediaAvaliacoes(),
+                        f1.getMediaAvaliacoes()
+                )
+        );
 
         return resposta;
     }
@@ -152,15 +148,6 @@ public class FilmeService {
             }
         } else {
             filme.setDuracao(0);
-        }
-
-        try {
-            if (omdb.getImdbRating() != null &&
-                    !omdb.getImdbRating().equals("N/A")) {
-                filme.setNotaMedia(Double.parseDouble(omdb.getImdbRating()));
-            }
-        } catch (NumberFormatException e) {
-            filme.setNotaMedia(0.0);
         }
 
         filme.setClassificacaoIndicativa(ClassificacaoIndicativa.LIVRE);
@@ -206,6 +193,23 @@ public class FilmeService {
         return converterParaResponse(filmeRepository.save(filme));
     }
 
+    public Double calcularMediaAvaliacoes(Filme filme) {
+
+        List<AvaliacaoFilme> avaliacoes = filme.getAvaliacoes();
+
+        if (avaliacoes == null || avaliacoes.isEmpty()) {
+            return 0.0;
+        }
+
+        double soma = 0.0;
+
+        for (AvaliacaoFilme avaliacao : avaliacoes) {
+            soma += avaliacao.getNota();
+        }
+
+        return soma / avaliacoes.size();
+    }
+
     private FilmeResponseDTO converterParaResponse(Filme filme) {
 
         FilmeResponseDTO dto = new FilmeResponseDTO();
@@ -216,7 +220,10 @@ public class FilmeService {
         dto.setDuracao(filme.getDuracao());
         dto.setDataLancamento(filme.getDataLancamento());
         dto.setClassificacaoIndicativa(filme.getClassificacaoIndicativa());
-        dto.setNotaMedia(filme.getNotaMedia());
+
+        dto.setMediaAvaliacoes(
+                calcularMediaAvaliacoes(filme)
+        );
 
         List<String> categorias = new ArrayList<>();
 

@@ -1,13 +1,14 @@
 package com.streamingflix.serraflixgrupo5.service;
 
+import com.streamingflix.serraflixgrupo5.dto.request.SerieRequest;
+import com.streamingflix.serraflixgrupo5.dto.response.OmdbResponseDTO;
+import com.streamingflix.serraflixgrupo5.dto.response.SerieResponse;
+import com.streamingflix.serraflixgrupo5.entity.AvaliacaoSerie;
 import com.streamingflix.serraflixgrupo5.entity.Categoria;
 import com.streamingflix.serraflixgrupo5.entity.Serie;
+import com.streamingflix.serraflixgrupo5.exception.ResourceNotFoundException;
 import com.streamingflix.serraflixgrupo5.repository.CategoriaRepository;
 import com.streamingflix.serraflixgrupo5.repository.SerieRepository;
-import com.streamingflix.serraflixgrupo5.dto.request.SerieRequest;
-import com.streamingflix.serraflixgrupo5.dto.response.SerieResponse;
-import com.streamingflix.serraflixgrupo5.dto.response.OmdbResponseDTO;
-import com.streamingflix.serraflixgrupo5.exception.ResourceNotFoundException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,7 +60,6 @@ public class SerieService {
         serie.setTemporadas(request.getTemporadas());
         serie.setEpisodios(request.getEpisodios());
         serie.setDataLancamento(request.getDataLancamento());
-        serie.setNotaMedia(0.0);
 
         if (request.getCategoriasIds() != null
                 && !request.getCategoriasIds().isEmpty()) {
@@ -111,18 +111,6 @@ public class SerieService {
         serieRepository.delete(serie);
     }
 
-    public void atualizarNotaMedia(Long serieId, Double novaMedia) {
-
-        Serie serie = serieRepository.findById(serieId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Série não encontrada com id: " + serieId));
-
-        serie.setNotaMedia(novaMedia);
-
-        serieRepository.save(serie);
-    }
-
     @Transactional
     public SerieResponse importarSerie(String titulo) {
 
@@ -138,22 +126,6 @@ public class SerieService {
 
         serie.setTitulo(omdb.getTitle());
         serie.setDescricao(omdb.getPlot());
-
-        try {
-
-            if (omdb.getImdbRating() != null
-                    && !omdb.getImdbRating().equals("N/A")) {
-
-                serie.setNotaMedia(
-                        Double.parseDouble(
-                                omdb.getImdbRating()));
-            } else {
-                serie.setNotaMedia(0.0);
-            }
-
-        } catch (Exception e) {
-            serie.setNotaMedia(0.0);
-        }
 
         try {
 
@@ -218,6 +190,23 @@ public class SerieService {
         return toResponse(serieRepository.save(serie));
     }
 
+    public Double calcularMediaAvaliacoes(Serie serie) {
+
+        List<AvaliacaoSerie> avaliacoes = serie.getAvaliacoes();
+
+        if (avaliacoes == null || avaliacoes.isEmpty()) {
+            return 0.0;
+        }
+
+        double soma = 0.0;
+
+        for (AvaliacaoSerie avaliacao : avaliacoes) {
+            soma += avaliacao.getNota();
+        }
+
+        return soma / avaliacoes.size();
+    }
+
     private SerieResponse toResponse(Serie serie) {
 
         SerieResponse response = new SerieResponse();
@@ -228,7 +217,10 @@ public class SerieService {
         response.setTemporadas(serie.getTemporadas());
         response.setEpisodios(serie.getEpisodios());
         response.setDataLancamento(serie.getDataLancamento());
-        response.setNotaMedia(serie.getNotaMedia());
+
+        response.setMediaAvaliacoes(
+                calcularMediaAvaliacoes(serie)
+        );
 
         response.setCategorias(
                 serie.getCategorias()
