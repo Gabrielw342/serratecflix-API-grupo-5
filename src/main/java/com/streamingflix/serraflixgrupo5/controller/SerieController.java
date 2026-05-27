@@ -232,4 +232,8 @@ public class SerieController {
             @PathVariable Long avaliacaoId) {
         avaliacaoSerieService.deletar(avaliacaoId);
     }
+    @PostMapping("/importar/{titulo}")
+    public SerieResponse importarSerie(@PathVariable String titulo) {
+        return serieService.importarSerie(titulo);
+    }
 }

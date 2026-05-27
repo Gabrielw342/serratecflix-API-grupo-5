@@ -28,9 +28,6 @@ import jakarta.validation.Valid;
 public class FilmeController {
 
     @Autowired
-    private OmdbService omdbService;
-
-    @Autowired
     private FilmeService filmeService;
 
     @Operation(
@@ -54,7 +51,9 @@ public class FilmeController {
     public OmdbResponseDTO buscarNaOmdb(
             @Parameter(description = "Título do filme a ser pesquisado na OMDb", required = true)
             @RequestParam String titulo) {
-        return omdbService.buscarFilme(titulo);
+
+        
+        return filmeService.buscarNaOmdb(titulo);
     }
 
     @Operation(
@@ -103,6 +102,7 @@ public class FilmeController {
     public FilmeResponseDTO importarFilme(
             @Parameter(description = "Título do filme a ser importado da OMDb", required = true)
             @PathVariable String titulo) {
+
         return filmeService.importarFilme(titulo);
     }
 
@@ -110,14 +110,6 @@ public class FilmeController {
         summary = "Listar todos os filmes",
         description = "Retorna a lista completa de filmes cadastrados no catálogo da SerraFlix"
     )
-    @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "Lista de filmes retornada com sucesso",
-            content = @Content(mediaType = "application/json",
-                schema = @Schema(implementation = FilmeResponseDTO.class))
-        )
-    })
     @GetMapping
     public List<FilmeResponseDTO> listarTodos() {
         return filmeService.listarTodos();
@@ -127,23 +119,8 @@ public class FilmeController {
         summary = "Buscar filme por ID",
         description = "Retorna um filme específico do catálogo pelo seu identificador único"
     )
-    @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "Filme encontrado com sucesso",
-            content = @Content(mediaType = "application/json",
-                schema = @Schema(implementation = FilmeResponseDTO.class))
-        ),
-        @ApiResponse(
-            responseCode = "404",
-            description = "Filme não encontrado",
-            content = @Content
-        )
-    })
     @GetMapping("/{id}")
-    public FilmeResponseDTO buscarPorId(
-            @Parameter(description = "ID do filme", required = true)
-            @PathVariable Long id) {
+    public FilmeResponseDTO buscarPorId(@PathVariable Long id) {
         return filmeService.buscarPorId(id);
     }
 
@@ -151,14 +128,6 @@ public class FilmeController {
         summary = "Ranking de filmes por nota",
         description = "Retorna todos os filmes ordenados da maior para a menor nota média de avaliações"
     )
-    @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "Ranking retornado com sucesso",
-            content = @Content(mediaType = "application/json",
-                schema = @Schema(implementation = FilmeResponseDTO.class))
-        )
-    })
     @GetMapping("/ranking")
     public List<FilmeResponseDTO> listarPorMaiorNota() {
         return filmeService.listarPorMaiorNota();
@@ -168,52 +137,21 @@ public class FilmeController {
         summary = "Deletar filme",
         description = "Remove um filme do catálogo pelo seu ID"
     )
-    @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "Filme deletado com sucesso",
-            content = @Content
-        ),
-        @ApiResponse(
-            responseCode = "404",
-            description = "Filme não encontrado",
-            content = @Content
-        )
-    })
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Parameter(description = "ID do filme a ser deletado", required = true)
     public void deletar(@PathVariable Long id) {
         filmeService.deletar(id);
     }
+
     @Operation(
         summary = "Atualizar filme",
         description = "Atualiza as informações de um filme existente no catálogo pelo seu ID"
     )
-    @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "Filme atualizado com sucesso",
-            content = @Content(mediaType = "application/json",
-                schema = @Schema(implementation = FilmeResponseDTO.class))
-        ),
-        @ApiResponse(
-            responseCode = "400",
-            description = "Dados inválidos na requisição",
-            content = @Content
-        ),
-        @ApiResponse(
-            responseCode = "404",
-            description = "Filme não encontrado",
-            content = @Content
-        )
-    })
     @PutMapping("/{id}")
     public FilmeResponseDTO atualizar(
-            @Parameter(description = "ID do filme a ser atualizado", required = true)
             @PathVariable Long id,
-            @Parameter(description = "Novos dados do filme", required = true)
             @RequestBody @Valid FilmeRequestDTO dto) {
+
         return filmeService.atualizar(id, dto);
     }
 }

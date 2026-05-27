@@ -11,10 +11,20 @@ public class OmdbResponseDTO {
     private String Released;
     private String Runtime;
     private String Rated;
+    private String totalSeasons;
    
     
+    
 
-    public String getReleased() {
+    public String getTotalSeasons() {
+		return totalSeasons;
+	}
+
+	public void setTotalSeasons(String totalSeasons) {
+		this.totalSeasons = totalSeasons;
+	}
+
+	public String getReleased() {
 		return Released;
 	}
 
