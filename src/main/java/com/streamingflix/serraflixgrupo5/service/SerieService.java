@@ -4,6 +4,8 @@ import com.streamingflix.serraflixgrupo5.entity.Categoria;
 import com.streamingflix.serraflixgrupo5.entity.Serie;
 import com.streamingflix.serraflixgrupo5.repository.CategoriaRepository;
 import com.streamingflix.serraflixgrupo5.repository.SerieRepository;
+import com.streamingflix.serraflixgrupo5.request.SerieRequest;
+import com.streamingflix.serraflixgrupo5.response.SerieResponse;
 import com.streamingflix.serraflixgrupo5.dto.request.SerieRequest;
 import com.streamingflix.serraflixgrupo5.dto.response.SerieResponse;
 import com.streamingflix.serraflixgrupo5.exception.ResourceNotFoundException;
