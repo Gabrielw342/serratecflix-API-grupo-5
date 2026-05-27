@@ -1,26 +1,15 @@
 package com.streamingflix.serraflixgrupo5.entity;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import com.streamingflix.serraflixgrupo5enum.ClassificacaoIndicativa;
 
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "filmes")
 public class Filme {
 
-	@ManyToMany
-	@JoinTable(
-	    name = "filme_categoria",
-	    joinColumns = @JoinColumn(name = "filme_id"),
-	    inverseJoinColumns = @JoinColumn(name = "categoria_id")
-	)
-	private List<Categoria> categorias;
-	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -92,15 +81,5 @@ public class Filme {
 
     public void setNotaMedia(Double notaMedia) {
         this.notaMedia = notaMedia;
-        
-        
-    }
-    
-    public List<Categoria> getCategorias() {
-        return categorias;
-    }
-
-    public void setCategorias(List<Categoria> categorias) {
-        this.categorias = categorias;
     }
 }
