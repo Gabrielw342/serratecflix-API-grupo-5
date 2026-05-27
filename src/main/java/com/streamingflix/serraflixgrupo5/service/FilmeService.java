@@ -24,7 +24,6 @@ public class FilmeService {
 
     @Autowired
     private FilmeRepository filmeRepository;
-
     @Autowired
     private CategoriaRepository categoriaRepository;
 
