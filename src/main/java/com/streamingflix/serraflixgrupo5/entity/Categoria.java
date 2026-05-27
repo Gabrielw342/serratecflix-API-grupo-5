@@ -1,5 +1,15 @@
 package com.streamingflix.serraflixgrupo5.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+
 import java.util.List;
 import jakarta.persistence.*;
 
@@ -15,10 +25,10 @@ public class Categoria {
     private String descricao;
 
     @ManyToMany(mappedBy = "categorias")
-    private List<Serie> series;
+    private List<Filme> filmes = new ArrayList<>();;
 
     @ManyToMany(mappedBy = "categorias")
-    private List<Filme> filmes;
+    private List<Serie> series = new ArrayList<>();
 
     public Categoria() {
     }

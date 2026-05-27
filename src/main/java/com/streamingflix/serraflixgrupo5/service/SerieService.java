@@ -9,6 +9,7 @@ import com.streamingflix.serraflixgrupo5.response.SerieResponse;
 import com.streamingflix.serraflixgrupo5.dto.request.SerieRequest;
 import com.streamingflix.serraflixgrupo5.dto.response.SerieResponse;
 import com.streamingflix.serraflixgrupo5.exception.ResourceNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.streamingflix.serraflixgrupo5.respository.SerieRepository;
 
 @Service
 public class SerieService {
