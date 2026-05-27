@@ -10,6 +10,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
+import java.util.List;
+import jakarta.persistence.*;
+
 @Entity
 @Table(name = "categorias")
 public class Categoria {
@@ -26,7 +29,6 @@ public class Categoria {
 
     @ManyToMany(mappedBy = "categorias")
     private List<Serie> series = new ArrayList<>();
-
 
     public Categoria() {
     }
