@@ -9,15 +9,12 @@ import com.streamingflix.serraflixgrupo5.repository.FilmeRepository;
 import com.streamingflix.serraflixgrupo5.repository.ListaFavoritosRepository;
 import com.streamingflix.serraflixgrupo5.repository.SerieRepository;
 import com.streamingflix.serraflixgrupo5.repository.UsuarioRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import com.streamingflix.serraflixgrupo5.respository.SerieRepository;
 
 @Service
 public class ListaFavoritosService {
