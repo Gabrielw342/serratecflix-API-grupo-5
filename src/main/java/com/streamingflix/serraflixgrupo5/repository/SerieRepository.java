@@ -17,5 +17,7 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
 
     @Query("SELECT s FROM Serie s JOIN s.categoria c WHERE c.nome = :nomeCategoria")
     List<Serie> findByCategoriaNome(String nomeCategoria);
+
+    
 }
 
