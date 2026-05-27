@@ -1,8 +1,8 @@
 package com.streamingflix.serraflixgrupo5.entity;
 
 import java.time.LocalDate;
-
-import com.streamingflix.serraflixgrupo5enum.ClassificacaoIndicativa;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -19,44 +19,35 @@ public class Serie {
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
-    private Integer episodios;
-    
     private Integer temporadas;
 
-    private LocalDate dataLancamento; 
+    private Integer episodios;
 
-    @Enumerated(EnumType.STRING)
-    private ClassificacaoIndicativa classificacaoIndicativa;
+    private LocalDate dataLancamento;
 
-    private Double notaMedia;
-    
-    
+    @ManyToMany
+    @JoinTable(
+        name = "serie_categoria",
+        joinColumns = @JoinColumn(name = "serie_id"),
+        inverseJoinColumns = @JoinColumn(name = "categoria_id")
+    )
+    private List<Categoria> categorias = new ArrayList<>();
 
-    public Integer getEpisodios() {
-		return episodios;
-	}
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL)
+    private List<AvaliacaoSerie> avaliacoes = new ArrayList<>();
 
-	public void setEpisodios(Integer episodios) {
-		this.episodios = episodios;
-	}
+    @ManyToMany(mappedBy = "series")
+    private List<ListaFavoritos> listasFavoritos = new ArrayList<>();
 
-	public Integer getTemporadas() {
-		return temporadas;
-	}
-
-	public void setTemporadas(Integer temporadas) {
-		this.temporadas = temporadas;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Serie() {
+    public Serie() {
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitulo() {
@@ -75,6 +66,22 @@ public class Serie {
         this.descricao = descricao;
     }
 
+    public Integer getTemporadas() {
+        return temporadas;
+    }
+
+    public void setTemporadas(Integer temporadas) {
+        this.temporadas = temporadas;
+    }
+
+    public Integer getEpisodios() {
+        return episodios;
+    }
+
+    public void setEpisodios(Integer episodios) {
+        this.episodios = episodios;
+    }
+
     public LocalDate getDataLancamento() {
         return dataLancamento;
     }
@@ -83,19 +90,27 @@ public class Serie {
         this.dataLancamento = dataLancamento;
     }
 
-    public ClassificacaoIndicativa getClassificacaoIndicativa() {
-        return classificacaoIndicativa;
+    public List<Categoria> getCategorias() {
+        return categorias;
     }
 
-    public void setClassificacaoIndicativa(ClassificacaoIndicativa classificacaoIndicativa) {
-        this.classificacaoIndicativa = classificacaoIndicativa;
+    public void setCategorias(List<Categoria> categorias) {
+        this.categorias = categorias;
     }
 
-    public Double getNotaMedia() {
-        return notaMedia;
+    public List<AvaliacaoSerie> getAvaliacoes() {
+        return avaliacoes;
     }
 
-    public void setNotaMedia(Double notaMedia) {
-        this.notaMedia = notaMedia;
+    public void setAvaliacoes(List<AvaliacaoSerie> avaliacoes) {
+        this.avaliacoes = avaliacoes;
+    }
+
+    public List<ListaFavoritos> getListasFavoritos() {
+        return listasFavoritos;
+    }
+
+    public void setListasFavoritos(List<ListaFavoritos> listasFavoritos) {
+        this.listasFavoritos = listasFavoritos;
     }
 }

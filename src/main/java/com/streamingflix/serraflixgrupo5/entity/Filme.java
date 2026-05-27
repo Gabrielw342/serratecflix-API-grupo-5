@@ -1,6 +1,7 @@
 package com.streamingflix.serraflixgrupo5.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.streamingflix.serraflixgrupo5enum.ClassificacaoIndicativa;
 
@@ -26,20 +27,36 @@ public class Filme {
     @Enumerated(EnumType.STRING)
     private ClassificacaoIndicativa classificacaoIndicativa;
 
-    private Double notaMedia;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "filme_categoria",
+        joinColumns = @JoinColumn(name = "filme_id"),
+        inverseJoinColumns = @JoinColumn(name = "categoria_id")
+    )
+    private List<Categoria> categorias;
 
+    
+    @OneToMany(mappedBy = "filme")
+    private List<AvaliacaoFilme> avaliacoes;
+
+    
+    
     public Filme() {
     }
 
+    
+    
     public Long getId() {
         return id;
     }
 
-    
     public void setId(Long id) {
         this.id = id;
     }
 
+    
+    
     public String getTitulo() {
         return titulo;
     }
@@ -48,6 +65,8 @@ public class Filme {
         this.titulo = titulo;
     }
 
+    
+    
     public String getDescricao() {
         return descricao;
     }
@@ -56,6 +75,8 @@ public class Filme {
         this.descricao = descricao;
     }
 
+    
+    
     public Integer getDuracao() {
         return duracao;
     }
@@ -64,6 +85,8 @@ public class Filme {
         this.duracao = duracao;
     }
 
+    
+    
     public LocalDate getDataLancamento() {
         return dataLancamento;
     }
@@ -72,6 +95,8 @@ public class Filme {
         this.dataLancamento = dataLancamento;
     }
 
+    
+    
     public ClassificacaoIndicativa getClassificacaoIndicativa() {
         return classificacaoIndicativa;
     }
@@ -80,11 +105,23 @@ public class Filme {
         this.classificacaoIndicativa = classificacaoIndicativa;
     }
 
-    public Double getNotaMedia() {
-        return notaMedia;
+    
+    
+    public List<Categoria> getCategorias() {
+        return categorias;
     }
 
-    public void setNotaMedia(Double notaMedia) {
-        this.notaMedia = notaMedia;
+    public void setCategorias(List<Categoria> categorias) {
+        this.categorias = categorias;
+    }
+
+    
+    
+    public List<AvaliacaoFilme> getAvaliacoes() {
+        return avaliacoes;
+    }
+
+    public void setAvaliacoes(List<AvaliacaoFilme> avaliacoes) {
+        this.avaliacoes = avaliacoes;
     }
 }
