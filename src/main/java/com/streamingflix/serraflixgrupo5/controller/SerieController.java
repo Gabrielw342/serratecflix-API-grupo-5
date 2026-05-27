@@ -53,6 +53,7 @@ public class SerieController {
     public SerieResponse criar(
             @Parameter(description = "Dados da série a ser cadastrada", required = true)
             @RequestBody @Valid SerieRequest request) {
+
         return serieService.criar(request);
     }
 
@@ -70,6 +71,7 @@ public class SerieController {
     })
     @GetMapping
     public List<SerieResponse> listarTodos() {
+
         return serieService.listarTodos();
     }
 
@@ -94,6 +96,7 @@ public class SerieController {
     public SerieResponse buscarPorId(
             @Parameter(description = "ID da série", required = true)
             @PathVariable Long id) {
+
         return serieService.buscarPorId(id);
     }
 
@@ -123,8 +126,10 @@ public class SerieController {
     public SerieResponse atualizar(
             @Parameter(description = "ID da série a ser atualizada", required = true)
             @PathVariable Long id,
+
             @Parameter(description = "Novos dados da série", required = true)
             @RequestBody @Valid SerieRequest request) {
+
         return serieService.atualizar(id, request);
     }
 
@@ -148,6 +153,7 @@ public class SerieController {
     public void deletar(
             @Parameter(description = "ID da série a ser deletada", required = true)
             @PathVariable Long id) {
+
         serieService.deletar(id);
     }
 
@@ -172,6 +178,7 @@ public class SerieController {
     public List<AvaliacaoSerieResponse> listarAvaliacoes(
             @Parameter(description = "ID da série", required = true)
             @PathVariable Long serieId) {
+
         return avaliacaoSerieService.listarPorSerie(serieId);
     }
 
@@ -202,11 +209,15 @@ public class SerieController {
     public AvaliacaoSerieResponse avaliar(
             @Parameter(description = "ID da série a ser avaliada", required = true)
             @PathVariable Long serieId,
+
             @Parameter(description = "ID do usuário que está avaliando", required = true)
             @RequestParam Long usuarioId,
+
             @Parameter(description = "Dados da avaliação", required = true)
             @RequestBody @Valid AvaliacaoSerieRequest request) {
+
         request.setSerieId(serieId);
+
         return avaliacaoSerieService.avaliar(usuarioId, request);
     }
 
@@ -230,6 +241,34 @@ public class SerieController {
     public void deletarAvaliacao(
             @Parameter(description = "ID da avaliação a ser deletada", required = true)
             @PathVariable Long avaliacaoId) {
+
         avaliacaoSerieService.deletar(avaliacaoId);
+    }
+
+    @Operation(
+        summary = "Importar série da OMDb",
+        description = "Busca uma série na API OMDb pelo título e salva automaticamente no banco de dados da SerraFlix"
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Série importada e salva com sucesso",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation = SerieResponse.class)
+            )
+        ),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Série não encontrada na OMDb",
+            content = @Content
+        )
+    })
+    @PostMapping("/importar/{titulo}")
+    public SerieResponse importarSerie(
+            @Parameter(description = "Título da série a ser importada", required = true)
+            @PathVariable String titulo) {
+
+        return serieService.importarSerie(titulo);
     }
 }
