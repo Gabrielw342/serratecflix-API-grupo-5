@@ -2,7 +2,7 @@ package com.streamingflix.serraflixgrupo5.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.streamingflix_avaliacao.entity.Usuario;
+import com.streamingflix.serraflixgrupo5.entity.Usuario;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;

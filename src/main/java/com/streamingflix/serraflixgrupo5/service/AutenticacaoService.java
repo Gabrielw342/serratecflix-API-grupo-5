@@ -1,7 +1,7 @@
 package com.streamingflix.serraflixgrupo5.service;
 
-import com.streamingflix_avaliacao.entity.Usuario;
-import com.streamingflix_avaliacao.repository.UsuarioRepository;
+import com.streamingflix.serraflixgrupo5.entity.Usuario;
+import com.streamingflix.serraflixgrupo5.repository.UsuarioRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

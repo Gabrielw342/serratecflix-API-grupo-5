@@ -1,7 +1,7 @@
 package com.streamingflix.serraflixgrupo5.security;
 
-import com.streamingflix_avaliacao.entity.Usuario;
-import com.streamingflix_avaliacao.repository.UsuarioRepository;
+import com.streamingflix.serraflixgrupo5.entity.Usuario;
+import com.streamingflix.serraflixgrupo5.repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,9 +1,9 @@
 package com.streamingflix.serraflixgrupo5.controller;
 
-import com.streamingflix_avaliacao.dto.request.LoginRequestDTO;
-import com.streamingflix_avaliacao.entity.Usuario;
-import com.streamingflix_avaliacao.repository.UsuarioRepository;
-import com.streamingflix_avaliacao.security.TokenService;
+import com.streamingflix.serraflixgrupo5.dto.request.LoginRequestDTO;
+import com.streamingflix.serraflixgrupo5.entity.Usuario;
+import com.streamingflix.serraflixgrupo5.repository.UsuarioRepository;
+import com.streamingflix.serraflixgrupo5.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
