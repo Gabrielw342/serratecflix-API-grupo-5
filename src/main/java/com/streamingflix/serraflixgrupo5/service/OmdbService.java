@@ -44,7 +44,8 @@ public class OmdbService {
                     + "?apikey="
                     + API_KEY
                     + "&t="
-                    + tituloFormatado;
+                    + tituloFormatado
+                    + "&type=movie";
 
             HttpRequest request =
                     HttpRequest.newBuilder()
@@ -62,14 +63,71 @@ public class OmdbService {
             JsonObject objeto =
                     gson.fromJson(json, JsonObject.class);
 
-            
             if (objeto.has("Response")
                     && objeto.get("Response")
                     .getAsString()
                     .equals("False")) {
 
                 throw new ResourceNotFoundException(
-                        "Filme não encontrado na API exterha OMDB");
+                        "Filme não encontrado na API externa OMDb");
+            }
+
+            return gson.fromJson(
+                    json,
+                    OmdbResponseDTO.class);
+
+        } catch (IOException e) {
+
+            throw new BadRequestException(
+                    "Erro de conexão com a OMDb API");
+
+        } catch (InterruptedException e) {
+
+            throw new BadRequestException(
+                    "Requisição interrompida");
+        }
+    }
+
+    public OmdbResponseDTO buscarSerie(String titulo) {
+
+        try {
+
+            String tituloFormatado =
+                    URLEncoder.encode(
+                            titulo,
+                            StandardCharsets.UTF_8);
+
+            String endereco =
+                    URL_BASE
+                    + "?apikey="
+                    + API_KEY
+                    + "&t="
+                    + tituloFormatado
+                    + "&type=series";
+
+            HttpRequest request =
+                    HttpRequest.newBuilder()
+                    .uri(URI.create(endereco))
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response =
+                    client.send(
+                            request,
+                            HttpResponse.BodyHandlers.ofString());
+
+            String json = response.body();
+
+            JsonObject objeto =
+                    gson.fromJson(json, JsonObject.class);
+
+            if (objeto.has("Response")
+                    && objeto.get("Response")
+                    .getAsString()
+                    .equals("False")) {
+
+                throw new ResourceNotFoundException(
+                        "Série não encontrada na API externa OMDb");
             }
 
             return gson.fromJson(
