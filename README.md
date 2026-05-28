@@ -2,14 +2,14 @@
 
 ## 👥 Integrantes — Grupo 5
 
-| Nome | GitHub | Parte no projeto|
+| Nome | GitHub | Parte no projeto |
 |------|--------|-----------------|
-| Gabriel | [Gabrielw342](https://github.com/Gabrielw342) | Classes e interfaces Filmes, Rank de mais avaliados|
-| Enzo | [`EnzoBCCosta`](https://github.com/EnzoBCCosta) | Classes e interfaces Series e Envio de email|
-| João Clemente | [`JClemente-web`](https://github.com/JClemente-web) |Classes e interfaces Avaliação filme e serie e Paginação|
-| Matheus | [`feat/categoria-matheus`](https://github.com/zMatheus77) |Classes e interfaces Categoria e Verificação de email|
-| Breno França Magrani | [`brenofranca2000`](https://github.com/brenofranca2000) |Classes e interfaces lista favoritos e Clonar Lista de favoritos|
-| Bruno Freitas | [`Brun0Fr3itas`](https://github.com/Brun0Fr3itas) | Classes e interfaces pessoa e foto de perfil|
+| Gabriel | [Gabrielw342](https://github.com/Gabrielw342) | Classes e interfaces Filmes, Rank de mais avaliados |
+| Enzo | [`EnzoBCCosta`](https://github.com/EnzoBCCosta) | Classes e interfaces Series e Envio de email |
+| João Clemente | [`JClemente-web`](https://github.com/JClemente-web) | Classes e interfaces Avaliação filme e serie e Paginação |
+| Matheus | [`feat/categoria-matheus`](https://github.com/zMatheus77) | Classes e interfaces Categoria e Verificação de email |
+| Breno França Magrani | [`brenofranca2000`](https://github.com/brenofranca2000) | Classes e interfaces lista favoritos e Clonar Lista de favoritos |
+| Bruno Freitas | [`Brun0Fr3itas`](https://github.com/Brun0Fr3itas) | Classes e interfaces pessoa e foto de perfil |
 
 ---
 
@@ -20,7 +20,7 @@ O **SerratecFlix** é uma API RESTful desenvolvida como projeto final do curso d
 - 🎥 Avaliem filmes e séries com nota (0–10) e comentário
 - 📋 Criem listas de favoritos personalizadas (públicas ou privadas)
 - 🏷️ Naveguem por categorias (Ação, Terror, Ficção Científica...)
-- 🌐 Consultem informações externas via integração com a **API OMDb**
+- 🌐 Consultem e importem informações externas via integração com a **API OMDb**
 - 🔐 Façam autenticação segura com **JWT**
 
 ---
@@ -37,8 +37,8 @@ O **SerratecFlix** é uma API RESTful desenvolvida como projeto final do curso d
 | Bean Validation | Validação de dados de entrada |
 | Swagger / OpenAPI | Documentação da API |
 | Maven | Gerenciador de dependências |
-| OMDb API | API externa para dados de filmes |
-| JavaMailSender | Envio de e-mails |
+| OMDb API | API externa para importação de filmes e séries |
+| JavaMailSender | Envio de e-mails e verificação de conta |
 
 ---
 
@@ -48,7 +48,7 @@ O projeto segue o padrão de **arquitetura em camadas**:
 
 ```
 src/main/java/com/streamingflix/serraflixgrupo5/
-├── config/           → Configurações (Swagger, Jackson, Mail, DataInitializer)
+├── config/           → Configurações (Swagger, Jackson, Mail, DataInitializer, DataLoader)
 ├── controller/       → Endpoints REST
 ├── dto/
 │   ├── request/      → DTOs de entrada
@@ -74,16 +74,19 @@ Serie   ──N:N──▶ Categoria
 Usuario ──1:N──▶ ListaFavoritos
 ListaFavoritos ──N:N──▶ Filme
 ListaFavoritos ──N:N──▶ Serie
+Usuario ──1:1──▶ Foto
 ```
 
 ### Entidades principais
 
-- **Usuario** — id, nome, email, username (único), senha, fotoPerfil, dataCriacao
-- **Filme** — id, titulo, descricao, duracao (min), dataLancamento, classificacaoIndicativa, notaMedia
-- **Serie** — id, titulo, descricao, temporadas, episodios, dataLancamento, notaMedia
-- **Categoria** — id, nome (ex: Ação, Terror), descricao
+- **Usuario** — id, nome, email (único), username (único), senha (mín. 8 caracteres), fotoPerfil, dataCriacao, emailVerificado
+- **Filme** — id, titulo, descricao, duracao (min), dataLancamento, classificacaoIndicativa, categorias, avaliacoes
+- **Serie** — id, titulo, descricao, temporadas, episodios, dataLancamento, categorias, avaliacoes
+- **Categoria** — id, nome, descricao
 - **AvaliacaoFilme / AvaliacaoSerie** — id, nota (0–10), comentario, dataAvaliacao
-- **ListaFavoritos** — id, nomeLista, privada (boolean), dataCriacao
+- **ListaFavoritos** — id, nomeLista, privada (boolean), dataCriacao, filmes, series
+- **Foto** — id, nome, tipo, dados (blob), usuario
+- **EmailVerificacaoToken** — token de verificação de e-mail por link
 
 ---
 
@@ -115,14 +118,16 @@ spring.datasource.password=sua_senha
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 
-omdb.api.key=sua_chave_omdb
-
 # (Opcional) Configurações de e-mail
 spring.mail.host=smtp.gmail.com
 spring.mail.port=587
 spring.mail.username=seu_email@gmail.com
 spring.mail.password=sua_senha_app
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
 ```
+
+> **Atenção:** a chave da OMDb é configurada diretamente no `OmdbClient`. Upload de arquivos suporta até **10MB** por requisição.
 
 ### 3. Execute a aplicação
 
@@ -130,7 +135,7 @@ spring.mail.password=sua_senha_app
 mvn spring-boot:run
 ```
 
-A aplicação irá iniciar na porta `8080` e o banco já será populado automaticamente com dados iniciais via `DataInitializer`.
+A aplicação iniciará na porta `8080`. O banco será populado automaticamente com dados iniciais via `DataInitializer` e `DataLoader`.
 
 ### 4. Acesse o Swagger
 
@@ -151,9 +156,9 @@ POST /usuarios
 
 ### 2. Faça login
 ```
-POST /auth/login
+POST /usuarios/login
 ```
-Retorna um `token` JWT.
+Retorna o token JWT diretamente como string no corpo da resposta.
 
 ### 3. Use o token nas demais requisições
 ```
@@ -169,34 +174,45 @@ No Swagger, clique em **Authorize** e insira `Bearer <seu_token>`.
 ### Autenticação
 | Método | Endpoint | Descrição | Auth |
 |--------|----------|-----------|------|
-| POST | `/auth/login` | Login e geração de token JWT | ❌ Público |
+| POST | `/usuarios/login` | Login e geração de token JWT | ❌ Público |
 
 ### Usuários
 | Método | Endpoint | Descrição | Auth |
 |--------|----------|-----------|------|
-| GET | `/usuarios` | Listar todos os usuários | ✅ |
+| GET | `/usuarios` | Listar todos os usuários | ❌ Público |
 | GET | `/usuarios/{id}` | Buscar usuário por ID | ✅ |
 | POST | `/usuarios` | Criar novo usuário | ❌ Público |
 | PUT | `/usuarios/{id}` | Atualizar usuário | ✅ |
 | DELETE | `/usuarios/{id}` | Remover usuário | ✅ |
+| POST | `/usuarios/{id}/foto` | Upload de foto de perfil (multipart) | ✅ |
+| GET | `/usuarios/{id}/foto` | Buscar foto de perfil | ✅ |
+| DELETE | `/usuarios/{id}/foto` | Remover foto de perfil | ✅ |
+| GET | `/usuarios/verificar?token=` | Verificar e-mail via token | ❌ Público |
 
 ### Filmes
 | Método | Endpoint | Descrição | Auth |
 |--------|----------|-----------|------|
 | GET | `/filmes` | Listar todos os filmes | ✅ |
 | GET | `/filmes/{id}` | Buscar filme por ID | ✅ |
-| POST | `/filmes` | Cadastrar filme | ✅ |
+| POST | `/filmes` | Cadastrar filme manualmente | ✅ |
 | PUT | `/filmes/{id}` | Atualizar filme | ✅ |
 | DELETE | `/filmes/{id}` | Remover filme | ✅ |
+| GET | `/filmes/ranking` | Listar filmes ordenados por maior nota | ✅ |
+| GET | `/filmes/omdb?titulo=` | Consultar filme na OMDb sem salvar | ✅ |
+| POST | `/filmes/importar/{titulo}` | Importar filme da OMDb e salvar | ✅ |
 
 ### Séries
 | Método | Endpoint | Descrição | Auth |
 |--------|----------|-----------|------|
 | GET | `/series` | Listar todas as séries | ✅ |
 | GET | `/series/{id}` | Buscar série por ID | ✅ |
-| POST | `/series` | Cadastrar série | ✅ |
+| POST | `/series` | Cadastrar série manualmente | ✅ |
 | PUT | `/series/{id}` | Atualizar série | ✅ |
 | DELETE | `/series/{id}` | Remover série | ✅ |
+| GET | `/series/{serieId}/avaliacoes` | Listar avaliações de uma série | ✅ |
+| POST | `/series/{serieId}/avaliacoes?usuarioId=` | Avaliar uma série | ✅ |
+| DELETE | `/series/avaliacoes/{avaliacaoId}` | Remover avaliação de série | ✅ |
+| POST | `/series/importar/{titulo}` | Importar série da OMDb e salvar | ✅ |
 
 ### Categorias
 | Método | Endpoint | Descrição | Auth |
@@ -207,22 +223,27 @@ No Swagger, clique em **Authorize** e insira `Bearer <seu_token>`.
 | PUT | `/categorias/{id}` | Atualizar categoria | ✅ |
 | DELETE | `/categorias/{id}` | Remover categoria | ✅ |
 
-### Avaliações
+### Avaliações de Filmes
 | Método | Endpoint | Descrição | Auth |
 |--------|----------|-----------|------|
-| GET | `/avaliacoes-filmes` | Listar avaliações de filmes | ✅ |
+| GET | `/avaliacoes-filmes` | Listar avaliações (paginado, padrão 10/página) | ✅ |
 | POST | `/avaliacoes-filmes` | Avaliar um filme (nota 0–10) | ✅ |
-| GET | `/avaliacoes-series` | Listar avaliações de séries | ✅ |
+
+### Avaliações de Séries
+| Método | Endpoint | Descrição | Auth |
+|--------|----------|-----------|------|
+| GET | `/avaliacoes-series` | Listar avaliações (paginado, padrão 10/página) | ✅ |
 | POST | `/avaliacoes-series` | Avaliar uma série (nota 0–10) | ✅ |
 
 ### Listas de Favoritos
 | Método | Endpoint | Descrição | Auth |
 |--------|----------|-----------|------|
-| GET | `/listas-favoritos` | Listar todas as listas | ✅ |
-| GET | `/listas-favoritos/{id}` | Buscar lista por ID | ✅ |
-| POST | `/listas-favoritos` | Criar lista de favoritos | ✅ |
-| PUT | `/listas-favoritos/{id}` | Atualizar lista | ✅ |
-| DELETE | `/listas-favoritos/{id}` | Remover lista | ✅ |
+| GET | `/listas` | Listar todas as listas | ✅ |
+| GET | `/listas/{id}` | Buscar lista por ID | ✅ |
+| POST | `/listas` | Criar lista de favoritos | ✅ |
+| PUT | `/listas/{id}` | Atualizar lista | ✅ |
+| DELETE | `/listas/{id}` | Remover lista | ✅ |
+| POST | `/listas/{listaId}/copiar/para/{usuarioId}` | Copiar lista para outro usuário | ✅ |
 
 ---
 
@@ -235,7 +256,7 @@ A API retorna respostas padronizadas para todos os erros:
 | `400` | Dados inválidos / falha de validação |
 | `401` | Não autorizado (token ausente ou inválido) |
 | `404` | Recurso não encontrado |
-| `409` | Conflito de dados (ex: username já cadastrado) |
+| `409` | Conflito de dados (ex: username ou email já cadastrado) |
 
 Exemplo de resposta de erro:
 ```json
@@ -250,20 +271,29 @@ Exemplo de resposta de erro:
 
 ## 🌐 Integração com API Externa — OMDb
 
-O projeto consome a **OMDb API** para buscar informações externas sobre filmes e séries (sinopse, poster, elenco, etc.).
+O projeto consome a **OMDb API** para buscar e importar informações de filmes e séries (título, sinopse, diretor, gênero, nota IMDb, etc.).
 
-Endpoint de exemplo:
+Exemplos de uso:
+
 ```
-GET /omdb/buscar?titulo=Inception
+# Consultar sem salvar
+GET /filmes/omdb?titulo=Inception
+
+# Importar e salvar automaticamente
+POST /filmes/importar/Inception
+POST /series/importar/Breaking Bad
 ```
 
 ---
 
 ## ✨ Funcionalidades Extras Implementadas
 
-- 📸 **Upload de foto de perfil** para usuários (`/usuarios/{id}/foto`)
-- 📧 **Envio de e-mail** via JavaMailSender
+- 📸 **Upload de foto de perfil** — envio, consulta e remoção via `/usuarios/{id}/foto` (até 10MB, formatos JPEG e PNG)
+- 📧 **Verificação de e-mail** — envio de link de confirmação ao cadastrar, validado via `/usuarios/verificar?token=`
 - 🔒 **Listas privadas** — controle de visibilidade por usuário
+- 📋 **Cópia de listas** — clonagem de lista de favoritos para outro usuário via `POST /listas/{listaId}/copiar/para/{usuarioId}`
+- 📊 **Paginação** — avaliações de filmes e séries paginadas (padrão: 10 itens por página)
+- 🏆 **Ranking de filmes** — ordenação por maior nota média via `GET /filmes/ranking`
 
 ---
 
@@ -276,10 +306,12 @@ GET /omdb/buscar?titulo=Inception
 - [x] Validações com Bean Validation
 - [x] Tratamento global de exceções
 - [x] Swagger / OpenAPI documentado
-- [x] Banco pré-populado (DataInitializer)
-- [x] Integração com OMDb API
-- [x] Upload de imagem
-- [x] Envio de e-mail
+- [x] Banco pré-populado (DataInitializer + DataLoader)
+- [x] Integração com OMDb API (consulta e importação)
+- [x] Upload de foto de perfil
+- [x] Envio de e-mail e verificação de conta
+- [x] Paginação nas avaliações
+- [x] Ranking de filmes por nota
+- [x] Cópia de listas de favoritos
 
 > Projeto desenvolvido para o curso de Desenvolvimento Backend — Serratec 2026 🚀
->>>>>>> ec6bb43de5cd29fcb108ac1c27f53606557a3176
