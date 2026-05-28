@@ -8,6 +8,7 @@ import com.streamingflix.serraflixgrupo5.exception.ConflictException;
 import com.streamingflix.serraflixgrupo5.exception.ResourceNotFoundException;
 import com.streamingflix.serraflixgrupo5.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,9 @@ public class UsuarioService {
 
     @Autowired
     private MailConfig mailConfig;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Transactional
     public UsuarioResponseDTO criar(UsuarioRequestDTO dto) {
@@ -36,7 +40,7 @@ public class UsuarioService {
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
         usuario.setUsername(dto.getUsername());
-        usuario.setSenha(dto.getSenha());
+        usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
 
         usuario = usuarioRepository.save(usuario);
 
