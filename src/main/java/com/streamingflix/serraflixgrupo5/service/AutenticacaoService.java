@@ -1,8 +1,6 @@
 package com.streamingflix.serraflixgrupo5.service;
 
-import com.streamingflix.serraflixgrupo5.entity.Usuario;
 import com.streamingflix.serraflixgrupo5.repository.UsuarioRepository;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,21 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class AutenticacaoService implements UserDetailsService {
 
-    private final UsuarioRepository repository;
+    private final UsuarioRepository usuarioRepository;
 
-    public AutenticacaoService(UsuarioRepository repository) {
-        this.repository = repository;
+    public AutenticacaoService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = repository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
-                
-        return User.builder()
-                .username(usuario.getUsername())
-                .password(usuario.getSenha())
-                .roles("USER")
-                .build();
+        return usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + username));
     }
 }

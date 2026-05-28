@@ -3,7 +3,6 @@ package com.streamingflix.serraflixgrupo5.controller;
 import java.util.List;
 
 import com.streamingflix.serraflixgrupo5.dto.response.OmdbResponseDTO;
-import com.streamingflix.serraflixgrupo5.service.OmdbService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

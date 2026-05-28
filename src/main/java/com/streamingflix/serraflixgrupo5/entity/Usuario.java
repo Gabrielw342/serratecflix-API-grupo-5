@@ -3,57 +3,76 @@ package com.streamingflix.serraflixgrupo5.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
- 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 @Entity
 @Table(name = "usuarios")
-public class Usuario {
- 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
- 
-    @NotBlank(message = "Nome é obrigatório")
-    @Size(min = 3, max = 100)
-    @Column(nullable = false)
-    private String nome;
- 
-    @NotBlank(message = "Email é obrigatório")
-    @Email(message = "Email inválido")
-    @Column(unique = true, nullable = false)
-    private String email;
- 
-    @NotBlank(message = "Username é obrigatório")
-    @Column(unique = true, nullable = false)
-    private String username;
- 
-    @NotBlank(message = "Senha é obrigatória")
-    @Size(min = 8, message = "Senha deve ter no mínimo 8 caracteres")
-    @Column(nullable = false)
-    private String senha;
- 
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
-    private Foto fotoPerfil;
- 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    @Column(nullable = false)
-    private LocalDate dataCriacao;
-    
-    @PrePersist
-    private void prePersist() {
-        this.dataCriacao = LocalDate.now();
-    }
-    
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<AvaliacaoFilme> avaliacoesFilme;
+public class Usuario implements UserDetails {
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<AvaliacaoSerie> avaliacoesSerie;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<ListaFavoritos> listasFavoritos;
+	@NotBlank(message = "Nome é obrigatório")
+	@Size(min = 3, max = 100)
+	@Column(nullable = false)
+	private String nome;
+
+	@NotBlank(message = "Email é obrigatório")
+	@Email(message = "Email inválido")
+	@Column(unique = true, nullable = false)
+	private String email;
+
+	@NotBlank(message = "Username é obrigatório")
+	@Column(unique = true, nullable = false)
+	private String username;
+
+	@NotBlank(message = "Senha é obrigatória")
+	@Size(min = 8, message = "Senha deve ter no mínimo 8 caracteres")
+	@Column(nullable = false)
+	private String senha;
+
+	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+	private Foto fotoPerfil;
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	@Column(nullable = false)
+	private LocalDate dataCriacao;
+
+	@PrePersist
+	private void prePersist() {
+		this.dataCriacao = LocalDate.now();
+	}
+
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	private List<AvaliacaoFilme> avaliacoesFilme;
+
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	private List<AvaliacaoSerie> avaliacoesSerie;
+
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	private List<ListaFavoritos> listasFavoritos;
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+	}
+
+	@Override
+	public String getPassword() {
+		return this.senha;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.username;
+	}
 
 	public Long getId() {
 		return id;
@@ -77,10 +96,6 @@ public class Usuario {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getUsername() {
-		return username;
 	}
 
 	public void setUsername(String username) {
