@@ -2,6 +2,7 @@ package com.streamingflix.serraflixgrupo5.service;
 
 import com.streamingflix.serraflixgrupo5.dto.request.AvaliacaoSerieRequest;
 import com.streamingflix.serraflixgrupo5.dto.response.AvaliacaoSerieResponse;
+import com.streamingflix.serraflixgrupo5.dto.response.PaginacaoResponse;
 import com.streamingflix.serraflixgrupo5.entity.AvaliacaoSerie;
 import com.streamingflix.serraflixgrupo5.entity.Serie;
 import com.streamingflix.serraflixgrupo5.entity.Usuario;
@@ -10,6 +11,8 @@ import com.streamingflix.serraflixgrupo5.repository.AvaliacaoSerieRepository;
 import com.streamingflix.serraflixgrupo5.repository.SerieRepository;
 import com.streamingflix.serraflixgrupo5.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,8 +51,23 @@ public class AvaliacaoSerieService {
                 avaliacaoSalva.getNota(),
                 avaliacaoSalva.getComentario(),
                 avaliacaoSalva.getSerie().getId(),
-                avaliacaoSalva.getUsuario().getId()
-        );
+                avaliacaoSalva.getUsuario().getId());
+    }
+
+    public PaginacaoResponse<AvaliacaoSerieResponse> listarPaginado(Pageable pageable) {
+        Page<AvaliacaoSerie> page = avaliacaoSerieRepository.findAll(pageable);
+
+        List<AvaliacaoSerieResponse> conteudo = page.getContent()
+                .stream()
+                .map(a -> new AvaliacaoSerieResponse(
+                        a.getId(),
+                        a.getNota(),
+                        a.getComentario(),
+                        a.getSerie().getId(),
+                        a.getUsuario().getId()))
+                .collect(Collectors.toList());
+
+        return new PaginacaoResponse<>(conteudo, page.getNumber(), page.getTotalPages(), page.getTotalElements());
     }
 
     public List<AvaliacaoSerieResponse> listarPorSerie(Long serieId) {
@@ -64,14 +82,14 @@ public class AvaliacaoSerieService {
                         a.getNota(),
                         a.getComentario(),
                         a.getSerie().getId(),
-                        a.getUsuario().getId()
-                ))
+                        a.getUsuario().getId()))
                 .collect(Collectors.toList());
     }
 
     public AvaliacaoSerieResponse avaliar(Long usuarioId, AvaliacaoSerieRequest request) {
         Serie serie = serieRepository.findById(request.getSerieId())
-                .orElseThrow(() -> new ResourceNotFoundException("Série não encontrada com id: " + request.getSerieId()));
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Série não encontrada com id: " + request.getSerieId()));
 
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com id: " + usuarioId));
@@ -89,8 +107,7 @@ public class AvaliacaoSerieService {
                 avaliacaoSalva.getNota(),
                 avaliacaoSalva.getComentario(),
                 avaliacaoSalva.getSerie().getId(),
-                avaliacaoSalva.getUsuario().getId()
-        );
+                avaliacaoSalva.getUsuario().getId());
     }
 
     public void deletar(Long avaliacaoId) {

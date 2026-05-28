@@ -2,10 +2,9 @@ package com.streamingflix.serraflixgrupo5.controller;
 
 import com.streamingflix.serraflixgrupo5.dto.request.AvaliacaoFilmeRequest;
 import com.streamingflix.serraflixgrupo5.dto.response.AvaliacaoFilmeResponse;
-import com.streamingflix.serraflixgrupo5.dto.response.Paginacao;
+import com.streamingflix.serraflixgrupo5.dto.response.PaginacaoResponse;
 import com.streamingflix.serraflixgrupo5.service.AvaliacaoFilmeService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -63,10 +62,10 @@ public class AvaliacaoFilmeController {
     }
 
     @GetMapping
-    public ResponseEntity<Paginacao<AvaliacaoFilmeResponse>> listar(
+    public ResponseEntity<PaginacaoResponse<AvaliacaoFilmeResponse>> listar(
             @PageableDefault(size = 10, page = 0) Pageable pageable) {
         
-        Paginacao<AvaliacaoFilmeResponse> response = avaliacaoFilmeService.listarPaginado(pageable);
+        PaginacaoResponse<AvaliacaoFilmeResponse> response = avaliacaoFilmeService.listarPaginado(pageable);
         
         return ResponseEntity.ok(response);
     }
