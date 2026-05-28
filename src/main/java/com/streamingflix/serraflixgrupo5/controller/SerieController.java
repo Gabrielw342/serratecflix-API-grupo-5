@@ -150,7 +150,6 @@ public class SerieController {
         )
     })
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(
             @Parameter(description = "ID da série a ser deletada", required = true)
             @PathVariable Long id) {

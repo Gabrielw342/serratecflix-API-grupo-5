@@ -70,14 +70,10 @@ public class UsuarioService {
         }
 
         try {
-            String mensagem = "Olá, " + usuario.getNome() + "!\n\n"
-                    + "Seu cadastro foi realizado com sucesso na plataforma Serraflix.\n"
-                    + "Username: " + usuario.getUsername() + "\n"
-                    + "Email: " + usuario.getEmail();
             mailConfig.sendEmail(
                     usuario.getEmail(),
                     "Bem-vindo ao Serraflix!",
-                    mensagem);
+                    usuario.getNome());
         } catch (Exception e) {
             System.err.println("Falha ao enviar email de boas-vindas: " + e.getMessage());
         }
