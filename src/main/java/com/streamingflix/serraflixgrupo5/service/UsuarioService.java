@@ -1,5 +1,6 @@
 package com.streamingflix.serraflixgrupo5.service;
 
+
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -7,7 +8,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.streamingflix.serraflixgrupo5.dto.request.UsuarioRequestDTO;
 import com.streamingflix.serraflixgrupo5.dto.response.UsuarioResponseDTO;
 import com.streamingflix.serraflixgrupo5.entity.EmailVerificacaoToken;
@@ -17,6 +17,14 @@ import com.streamingflix.serraflixgrupo5.exception.ResourceNotFoundException;
 import com.streamingflix.serraflixgrupo5.repository.EmailVerificacaoTokenRepository;
 import com.streamingflix.serraflixgrupo5.repository.UsuarioRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UsuarioService {
 
@@ -24,6 +32,7 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
+
     private EmailVerificacaoTokenRepository tokenRepository;
 
     @Autowired
@@ -64,6 +73,25 @@ public class UsuarioService {
                 token
         );
 
+        usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
+
+        usuario = usuarioRepository.save(usuario);
+
+        try {
+            String mensagem = "Olá, " + usuario.getNome() + "!\n\n"
+                    + "Seu cadastro foi realizado com sucesso na plataforma Serraflix.\n"
+                    + "Username: " + usuario.getUsername() + "\n"
+                    + "Email: " + usuario.getEmail();
+            mailConfig.sendEmail(
+                    usuario.getEmail(),
+                    "Bem-vindo ao Serraflix!",
+                    mensagem
+            );
+        } catch (Exception e) {
+            System.err.println("Falha ao enviar email de boas-vindas: " + e.getMessage());
+        }
+
+
         return toResponseDTO(usuario);
     }
 
@@ -91,11 +119,13 @@ public class UsuarioService {
     public UsuarioResponseDTO atualizar(Long id, UsuarioRequestDTO dto) {
 
         Usuario usuario = usuarioRepository.findById(id)
+
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
                                 "Usuário não encontrado com id: " + id
                         )
                 );
+
 
         if (!usuario.getUsername().equals(dto.getUsername()) &&
                 usuarioRepository.existsByUsername(dto.getUsername())) {
@@ -148,9 +178,11 @@ public class UsuarioService {
         dto.setEmailVerificado(usuario.isEmailVerificado());
 
         if (usuario.getFotoPerfil() != null) {
+
             dto.setFotoPerfil(
                     usuario.getFotoPerfil().getNome()
             );
+
         }
 
         return dto;

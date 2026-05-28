@@ -11,7 +11,7 @@ public class SerieResponse {
     private LocalDate dataLancamento;  
     private Integer temporadas;
     private Integer episodios;
-    private Double notaMedia;
+    private Double mediaAvaliacoes;
     private List<String> categorias;
 
     public SerieResponse() {
@@ -59,14 +59,17 @@ public class SerieResponse {
         this.episodios = episodios;
     }
 
-    public Double getNotaMedia() {
-        return notaMedia;
-    }
-    public void setNotaMedia(Double notaMedia) {
-        this.notaMedia = notaMedia;
-    }
+    
 
-    public List<String> getCategorias() {
+    public Double getMediaAvaliacoes() {
+		return mediaAvaliacoes;
+	}
+
+	public void setMediaAvaliacoes(Double mediaAvaliacoes) {
+		this.mediaAvaliacoes = mediaAvaliacoes;
+	}
+
+	public List<String> getCategorias() {
         return categorias;
     }
     public void setCategorias(List<String> categorias) {

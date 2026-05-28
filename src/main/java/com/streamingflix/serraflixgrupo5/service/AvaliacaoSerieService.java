@@ -9,12 +9,11 @@ import com.streamingflix.serraflixgrupo5.exception.ResourceNotFoundException;
 import com.streamingflix.serraflixgrupo5.repository.AvaliacaoSerieRepository;
 import com.streamingflix.serraflixgrupo5.repository.SerieRepository;
 import com.streamingflix.serraflixgrupo5.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class AvaliacaoSerieService {
@@ -22,14 +21,14 @@ public class AvaliacaoSerieService {
     @Autowired
     private AvaliacaoSerieRepository avaliacaoSerieRepository;
 
-     @Autowired
+    @Autowired
     private SerieRepository serieRepository;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
 
     public AvaliacaoSerieResponse salvar(AvaliacaoSerieRequest request) {
-        
+
         AvaliacaoSerie avaliacao = new AvaliacaoSerie();
         avaliacao.setNota(request.getNota());
         avaliacao.setComentario(request.getComentario());

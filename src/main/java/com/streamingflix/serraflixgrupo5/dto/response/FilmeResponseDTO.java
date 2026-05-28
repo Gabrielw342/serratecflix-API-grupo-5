@@ -20,7 +20,7 @@ public class FilmeResponseDTO {
 
     private ClassificacaoIndicativa classificacaoIndicativa;
 
-    private Double notaMedia;
+    private Double mediaAvaliacoes;
     
     private List<String> categorias;
 
@@ -75,13 +75,13 @@ public class FilmeResponseDTO {
         this.classificacaoIndicativa = classificacaoIndicativa;
     }
 
-    public Double getNotaMedia() {
-        return notaMedia;
-    }
+	public Double getMediaAvaliacoes() {
+		return mediaAvaliacoes;
+	}
 
-    public void setNotaMedia(Double notaMedia) {
-        this.notaMedia = notaMedia;
-    }
+	public void setMediaAvaliacoes(Double mediaAvaliacoes) {
+		this.mediaAvaliacoes = mediaAvaliacoes;
+	}
 
 	public List<String> getCategorias() {
 		return categorias;

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -108,6 +109,26 @@ public class ListaFavoritosService {
         lista.getSeries().add(serie);
         lista = repository.save(lista);
         return converterParaResponseDTO(lista);
+    }
+
+    public ListaFavoritosResponseDTO copiarLista(Long listaId, Long novoUsuarioId) {
+        ListaFavoritos listaOriginal = repository.findById(listaId)
+                .orElseThrow(() -> new ResourceNotFoundException("Lista original não encontrada com id: " + listaId));
+
+        Usuario novoUsuario = usuarioRepository.findById(novoUsuarioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário de destino não encontrado com id: " + novoUsuarioId));
+
+        ListaFavoritos novaLista = new ListaFavoritos();
+        novaLista.setNomeLista("Cópia de - " + listaOriginal.getNomeLista());
+        novaLista.setPrivada(true);
+        novaLista.setDataCriacao(LocalDate.now());
+        novaLista.setUsuario(novoUsuario);
+
+        novaLista.setFilmes(new ArrayList<>(listaOriginal.getFilmes()));
+        novaLista.setSeries(new ArrayList<>(listaOriginal.getSeries()));
+
+        novaLista = repository.save(novaLista);
+        return converterParaResponseDTO(novaLista);
     }
 
     private ListaFavoritosResponseDTO converterParaResponseDTO(ListaFavoritos lista) {
