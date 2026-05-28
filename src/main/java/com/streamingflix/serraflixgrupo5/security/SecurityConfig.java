@@ -26,7 +26,7 @@ public class SecurityConfig {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
                     
-                    req.requestMatchers("/usuarios/login", "/usuarios/cadastro").permitAll();
+                	req.requestMatchers("/usuarios/login", "/usuarios/cadastro", "/usuarios").permitAll();
                     
                     
                     req.anyRequest().authenticated();
