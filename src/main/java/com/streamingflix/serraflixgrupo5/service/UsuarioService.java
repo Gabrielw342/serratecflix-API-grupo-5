@@ -124,11 +124,29 @@ public class UsuarioService {
 
     @Transactional
     public void deletar(Long id) {
-        if (!usuarioRepository.existsById(id)) {
-            throw new ResourceNotFoundException(
-                    "Usuário não encontrado com id: " + id);
-        }
-        usuarioRepository.deleteById(id);
+
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Usuário não encontrado com id: " + id));
+
+        tokenRepository.deleteAllByUsuario_Id(id);
+
+        usuarioRepository.delete(usuario);
+    }
+
+    @Transactional
+    public void verificarEmail(String token) {
+
+        EmailVerificacaoToken verificationToken = tokenRepository.findByToken(token)
+                .orElseThrow(() -> new ResourceNotFoundException("Token inválido"));
+
+        Usuario usuario = verificationToken.getUsuario();
+
+        usuario.setEmailVerificado(true);
+
+        usuarioRepository.save(usuario);
+
+        tokenRepository.delete(verificationToken);
     }
 
     private UsuarioResponseDTO toResponseDTO(Usuario usuario) {

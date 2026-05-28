@@ -217,6 +217,12 @@ public class UsuarioController {
                 .contentType(MediaType.parseMediaType(foto.getTipo()))
                 .body(foto.getDados());
     }
+    
+    @GetMapping("/verificar")
+    public ResponseEntity<String> verificarEmail(@RequestParam("token") String token) {
+        usuarioService.verificarEmail(token);
+        return ResponseEntity.ok("E-mail verificado com sucesso!");
+    }
 
     @Operation(
         summary = "Deletar foto de perfil",
