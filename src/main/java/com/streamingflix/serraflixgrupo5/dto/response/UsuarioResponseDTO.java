@@ -13,7 +13,8 @@ public class UsuarioResponseDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataCriacao;
     private String fotoPerfil;
- 
+	private boolean emailVerificado;
+	
     public UsuarioResponseDTO() {}
 
 	public Long getId() {
@@ -63,4 +64,12 @@ public class UsuarioResponseDTO {
 	public void setFotoPerfil(String fotoPerfil) {
 		this.fotoPerfil = fotoPerfil;
 	}
+
+    public boolean isEmailVerificado() {
+        return emailVerificado;
+    }
+
+    public void setEmailVerificado(boolean emailVerificado) {
+        this.emailVerificado = emailVerificado;
+    }
 }

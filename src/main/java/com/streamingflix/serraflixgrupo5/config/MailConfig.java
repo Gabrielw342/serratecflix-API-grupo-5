@@ -11,7 +11,6 @@ public class MailConfig {
     @Autowired
     private JavaMailSender mailSender;
 
-
     public void sendEmail(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
 

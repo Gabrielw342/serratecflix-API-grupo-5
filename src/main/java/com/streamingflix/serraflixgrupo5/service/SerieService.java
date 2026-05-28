@@ -4,12 +4,9 @@ import com.streamingflix.serraflixgrupo5.entity.Categoria;
 import com.streamingflix.serraflixgrupo5.entity.Serie;
 import com.streamingflix.serraflixgrupo5.repository.CategoriaRepository;
 import com.streamingflix.serraflixgrupo5.repository.SerieRepository;
-import com.streamingflix.serraflixgrupo5.request.SerieRequest;
-import com.streamingflix.serraflixgrupo5.response.SerieResponse;
 import com.streamingflix.serraflixgrupo5.dto.request.SerieRequest;
 import com.streamingflix.serraflixgrupo5.dto.response.SerieResponse;
 import com.streamingflix.serraflixgrupo5.exception.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,8 +48,8 @@ public class SerieService {
         serie.setDataLancamento(request.getDataLancamento());
         serie.setNotaMedia(0.0);
 
-        if (request.getCategoriaIds() != null && !request.categoriasIds().isEmpty()) {
-            List<Categoria> categorias = categoriaRepository.findAllById(request.categoriasIds());
+        if (request.getCategoriasIds() != null && !request.getCategoriasIds().isEmpty()) {
+            List<Categoria> categorias = categoriaRepository.findAllById(request.getCategoriasIds());
             serie.setCategorias(categorias);
         }
 
@@ -70,8 +67,8 @@ public class SerieService {
         serie.setEpisodios(request.getEpisodios());
         serie.setDataLancamento(request.getDataLancamento());
 
-        if (request.getCategoriaIds() != null) {
-            List<Categoria> categorias = categoriaRepository.findAllById(request.getCategoriaIds());
+        if (request.getCategoriasIds() != null) {
+            List<Categoria> categorias = categoriaRepository.findAllById(request.getCategoriasIds());
             serie.setCategorias(categorias);
         }
 
