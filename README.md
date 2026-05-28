@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-placeholder
-a
-=======
-
-
-
-
 # 🎬 SerratecFlix — API RESTful
 
 ## 👥 Integrantes — Grupo 5
